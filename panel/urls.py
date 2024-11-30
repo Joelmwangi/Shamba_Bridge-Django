@@ -22,9 +22,19 @@ from django.conf.urls.static import static
 
 from panel import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('page/', views.page, name='page'),
+    path('panel/', views.panel_view, name='panel'),
+    path('signup/', views.signup_view, name='signup'),
+    path('about/', views.about, name='about'),
+    path('product', views.product, name='product'),
+    path('sidebar/', views.sidebar, name='sidebar'),
+    path('login/',views.login_view,name='login'),
+    path('logout/',views.logout_view,name='logout'),
+    path('dashboard/',views.dashboard_view,name='dashboard'),
+    path('edit/<int:id>/', views.edit,name='edit'),
+    path('delete/<int:id>/', views.delete, name='delete')
 
 
 

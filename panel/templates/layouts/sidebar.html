@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShambaBridge - Farmer </title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="row bg-success">
+    <div class="col-md-10">
+<h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
+
+        </div>
+        <div class="col-md-2 p-3">
+
+<a href="{% url 'logout' %}" class="btn btn-danger">LogOut</a>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-2 side-bar" style="background-color: #222d32; height: 500px; padding: 10px; text-decoration: none;">
+   {% load static %}
+<table>
+    <tr>
+        <td>
+            {% if profile.image %}
+            <img src="{{ profile.image.url }}" alt="{{ profile.name }}" style="width: 80px; height: 80px;">
+            {% else %}
+            <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;">
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+
+        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+
+     <a href="#" style="color: white"><i class="fa-solid fa-gauge"></i>Dashboard</a>
+        </div>
+
+          <div class="col-md-12" style=" padding-top: 10px;">
+<p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> Farm Produce</p>
+     <a href="#" style="color: white"><i class="fa-solid fa-plus"></i>Add Product</a>
+<br>
+               <a href="#" style="color: white"><i class="fa-solid fa-plus"></i> Sell Product</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i> Finances</p>
+                 <a href="#" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                <br>
+           <a href="#" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i> Profile</p>
+
+     <a href="#" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
+        </div>
+             </div>
+
+
+<div class="container md-3">
+{#    <p>Profile >> Add</p>#}
+
+
+
+<p onclick="openPopup()" style="color: #0a3622; cursor:pointer;"> <i class="fa-solid fa-user-plus"></i>Add Details</p>
+
+
+
+<!-- Overlay background -->
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+<!-- Pop-Up Menu -->
+<div class="popup-menu" id="popupMenu">
+  <div class="header">+ Farmer</div>
+  <div class="content">
+
+ <form action="" method="POST" enctype="multipart/form-data" style="padding: 10px;">
+        {% csrf_token %}
+    <h3>Personal Details</h3>
+    {{ form }}
+    <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 10px;">Update Details</button>
+</form>
+
+  </div>
+  <div class="footer" >
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+</div>
+
+          </div>
+</div>
+
+  </div>
+
+
+
+    </div>
+  <style>
+    .info-card {
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .info-card .card-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+    .info-card .card-content h5 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .info-card .card-content p {
+      margin: 0;
+    }
+    .info-card .more-info {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: bold;
+    }
+
+
+
+  </style>
+
+    <style>
+
+.open-btn {
+  padding: 10px 20px;
+  background-color: darkslategrey;
+  color: #ffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.open-btn:hover{
+  background-color: darkgreen;
+}
+
+.popup-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      background: #fff;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .popup-menu .header {
+      padding: 15px;
+      background: green;
+      color: #fff;
+      border-radius: 10px 10px 0 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .popup-menu .content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .popup-menu .content a {
+      display: block;
+      margin: 10px 0;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .popup-menu .content a:hover {
+      color: #0056b3;
+    }
+
+    .popup-menu .footer {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .popup-menu .footer button {
+      padding: 8px 15px;
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu .footer button:hover {
+      background-color: #cc0000;
+    }
+
+    /* Overlay background */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+    }
+</style>
+
+<script>
+    function openPopup() {
+        document.getElementById('popupMenu').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupMenu').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+
+{%  block content %}
+
+{% endblock %}
+</body>
+</html>

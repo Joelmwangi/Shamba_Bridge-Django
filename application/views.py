@@ -6,3 +6,8 @@ def index(request):
 
 def test(request):
     return render(request, 'test.html')
+
+
+
+def application_view(request):
+    return render(request, 'dashboard.html')

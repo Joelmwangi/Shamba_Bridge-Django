@@ -55,6 +55,96 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+<style>
+    
+.open-btn {
+  padding: 10px 20px;
+  background-color: darkslategrey;
+  color: #ffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.open-btn:hover{
+  background-color: darkgreen;
+}
+
+.popup-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      background: #fff;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .popup-menu .header {
+      padding: 15px;
+      background: green;
+      color: #fff;
+      border-radius: 10px 10px 0 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .popup-menu .content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .popup-menu .content a {
+      display: block;
+      margin: 10px 0;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .popup-menu .content a:hover {
+      color: #0056b3;
+    }
+
+    .popup-menu .footer {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .popup-menu .footer button {
+      padding: 8px 15px;
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .popup-menu .footer button:hover {
+      background-color: #cc0000;
+    }
+
+    /* Overlay background */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+    }
+</style>
 
 </head>
 <body>
@@ -77,7 +167,7 @@
           <li><a href="#">Community</a></li>
           <li class="dropdown"><a href="#"><span>Portals</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="#">Farmer</a></li>
+              <li><a href="{% url 'panel' %}">Farmer</a></li>
               <li class="dropdown"><a href="#"><span>Administrators</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Admin</a></li>
@@ -92,7 +182,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn btn-success" style="background-color: green;" href="index.html#about">Get Started</a>
+
 
     </div>
   </header>
@@ -118,6 +208,25 @@
             <p>Nakuru City, KE 40100</p>
             <p class="mt-3"><strong>Phone:</strong> <span>+254 112 054 071</span></p>
             <p><strong>Email:</strong> <span>joelmwangi515@gmail.com</span></p>
+              <p onclick="openPopup()" style="cursor: pointer;">Developer - Joel Mwangi</p>
+             
+<!-- Overlay background -->
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+<!-- Pop-Up Menu -->
+<div class="popup-menu" id="popupMenu">
+  <div class="header">Developer</div>
+  <div class="content">
+      <img src="{% static 'assets/img/developer.png' %}" width="100%" height="100%">
+    <a href="mailto:joelmwangi515@gmail.com"><i class="fa-solid fa-envelope"></i> Send Email</a>
+    <a href="https://github.com/Joelmwangi/"><i class="fa-brands fa-github"></i> GitHub</a>
+    <a href="https://lipia-online.vercel.app/link/shambabridge"><i class="fa-solid fa-hand-holding-heart"></i> Support </a>
+  </div>
+  <div class="footer">
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
@@ -172,6 +281,16 @@
     </div>
 
   </footer>
+<script>
+  function openPopup() {
+    document.getElementById('popupMenu').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
 
+  function closePopup() {
+    document.getElementById('popupMenu').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+</script>
     </body>
 </html>

@@ -1,0 +1,135 @@
+{% extends 'layouts/app.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <div class="row bg-success">
+    <div class="col-md-10">
+<h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
+        </div>
+        <div class="col-md-2 p-3">
+
+<a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> LogOut</a>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-2 side-bar" style="background-color: #222d32; height: 500px; padding: 10px; text-decoration: none;">
+        <<table style="margin: 10px">
+    <tr>
+
+
+
+    {% for profile in data %}
+            <tr>
+                <td>
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" style="width: 80px; height: 80px; border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;  border-radius: 50%;">
+                    {% endif %}
+                </td>
+{% endfor %}
+
+    </tr>
+</table>
+        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+
+     <a href="#" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+        </div>
+
+          <div class="col-md-12" style=" padding-top: 10px;">
+              <p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> <i> Farm Produce</i></p>
+     <a href="{% url 'product' %}" style="color: white"><i class="fa-solid fa-plus"></i>Add Product</a>
+<br>
+               <a href="#" style="color: white"><i class="fa-solid fa-plus"></i> Sell Product</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i> </p>
+                 <a href="#" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                <br>
+           <a href="#" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i><i> Profile</i></p>
+
+     <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
+        </div>
+             </div>
+
+
+<div class="container mt-4">
+    <div class="row g-3">
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="info-card" style="background-color: #17a2b8;">
+          <div class="card-content">
+            <h5>2</h5>
+            <p>No. of Products</p>
+            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          <i class="fas fa-list card-icon"></i>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="info-card" style="background-color: #28a745;">
+          <div class="card-content">
+            <h5>2</h5>
+            <p>No. of Workers</p>
+            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          <i class="fas fa-user-tie card-icon"></i>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="info-card" style="background-color: #fd7e14;">
+          <div class="card-content">
+            <h5>2</h5>
+            <p>Pay</p>
+            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          <i class="fa-brands fa-paypal fa-lg"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+  <style>
+    .info-card {
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .info-card .card-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+    .info-card .card-content h5 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .info-card .card-content p {
+      margin: 0;
+    }
+    .info-card .more-info {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: bold;
+    }
+  </style>
+
+
+
+{% endblock %}

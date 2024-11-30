@@ -1,0 +1,27 @@
+
+    .info-card {
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .info-card .card-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+    .info-card .card-content h5 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .info-card .card-content p {
+      margin: 0;
+    }
+    .info-card .more-info {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: bold;
+    }
