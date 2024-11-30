@@ -1,0 +1,403 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShambaBridge - Farmer </title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="row bg-success">
+    <div class="col-md-10">
+<h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
+
+        </div>
+        <div class="col-md-2 p-3">
+
+<a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> LogOut</a>
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-2 side-bar" style="background-color: #222d32; height: 500px; padding: 10px; text-decoration: none;">
+   {% load static %}
+<table style="margin: 10px">
+    <tr>
+
+    </tr>
+</table>
+
+        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+
+     <a href="#" style="color: white"><i class="fa-solid fa-gauge"></i>Dashboard</a>
+        </div>
+
+          <div class="col-md-12" style=" padding-top: 10px;">
+<p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> Farm Produce</p>
+     <a href="{% url 'product' %}" style="color: white"><i class="fa-solid fa-plus"></i>Add Product</a>
+<br>
+               <a href="#" style="color: white"><i class="fa-solid fa-plus"></i> Sell Product</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i> Finances</p>
+                 <a href="#" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                <br>
+           <a href="#" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
+        </div>
+
+            <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i> Profile</p>
+
+     <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
+        </div>
+             </div>
+
+
+<div class="container md-3">
+<p onclick="openPopup()" style="color: #0a3622; cursor:pointer;"> <i class="fa-solid fa-user-plus"></i>Add Worker</p>
+<div class="table">
+    <table class="table table-dark" style="border: 2px dotted green;">
+        <thead class="thead-dark">
+                      {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+    {% if message.tags == 'success' %}✔️{% elif message.tags == 'error' %}❌{% elif message.tags == 'warning' %}⚠️{% elif message.tags == 'info' %}ℹ️{% endif %}
+    {{ message }}
+</li>
+
+
+        {% endfor %}
+    {% endif %}
+    </ul>
+            <tr>
+
+                <th>NAME</th>
+                <th>Id-Number</th>
+                <th>Role</th>
+                <th>Mode Of payment</th>
+                <th>Bank acount/ Mpesa/Airtel Nol</th>
+               <th> Actions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for new_worker in worker1 %}
+            <tr>
+
+                <td>{{ new_worker.name }}</td>
+                <td>{{ new_worker.Id_number }}</td>
+                <td>{{ new_worker.role }}</td>
+                <td>{{ new_worker.mode_payment }}</td>
+                <td>{{ new_worker.account }}</td>
+
+                <td>
+                    <a href="#" onclick="openPopup()" ><i class="fa-regular fa-pen-to-square"></i> EDIT</a>
+                </td>
+                <td>
+                    <a href="{% url 'fire_worker' new_worker.id %}" class="btn btn-danger" type="button"
+                       onclick="return confirm('Are you sure you want to fire this worker?');"><i class="fa-solid fa-trash"></i> FIRE</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<div class="col-md-3" style="padding:  5px; max-width: 500px; height: 500px;">
+
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+
+<div class="popup-menu" id="popupMenu">
+  <div class="header">+ Worker</div>
+    <p onclick="closePopup()" class="p">Close</p>
+
+  <div class="content">
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+    {{ nworker.as_p }}
+    <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: 10px;">Worker</button>
+</form>
+
+  </div>
+
+
+
+</div>
+</div>
+
+          </div>
+</div>
+</div>
+<style>
+/* Style the table container */
+.table {
+    margin: 20px auto;
+    width: 90%;
+    border: 2px solid #28a745; /* Solid green border */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff; /* White background for the table container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a clean look */
+}
+
+/* Table styles */
+.table-dark {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+.thead-dark th {
+    background-color: #343a40;
+    color: #fff;
+    padding: 15px;
+    font-size: 14px;
+    border-bottom: 2px solid #28a745; /* Green line separating the header */
+    text-transform: uppercase;
+}
+
+/* Row styles */
+.table-dark tbody tr {
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.table-dark tbody tr:hover {
+    background-color: #f1f1f1; /* Light grey on hover */
+}
+
+/* Alternate row background */
+.table-dark tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+.table-dark tbody tr:nth-child(even) {
+    background-color: #e9ecef;
+}
+
+/* Cell styles */
+.table-dark td {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ddd; /* Subtle border between cells */
+    vertical-align: middle;
+}
+
+/* Image styles */
+.table-dark img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    object-fit: cover; /* Ensures uniform image display */
+    border: 2px solid #28a745; /* Green border around images */
+}
+
+/* Button styles */
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+.btn-success:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.p{
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 1px 6px;
+    font-size: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: inherit;
+    text-decoration: none;
+    display: flex;
+    justify-content: end;
+    text-align: center;
+
+}
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Pagination styles (if needed) */
+.table ~ .pagination {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 14px;
+}
+
+.pagination .page-link {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #343a40;
+    background-color: #f8f9fa;
+}
+
+.pagination .page-link:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.pagination .active {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+}
+
+
+</style>
+ <style>
+  .open-btn {
+    padding: 10px 20px;
+    background-color: darkslategrey;
+    color: #ffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .open-btn:hover {
+    background-color: darkgreen;
+  }
+
+  .popup-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 80%; /* Make the height relative so that it adapts */
+    max-height: 80vh; /* Ensure the height is responsive to the viewport */
+    background: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: none;
+    z-index: 1000;
+    overflow: hidden; /* Prevents the popup from overflowing */
+  }
+
+  .popup-menu .header {
+    padding: 15px;
+    background: green;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .popup-menu .content {
+    padding: 20px;
+    text-align: center;
+    max-height: calc(100% - 80px); /* Adjust to allow space for header and footer */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #888 #f1f1f1; /* Customize scrollbar color */
+  }
+
+  .popup-menu .content a {
+    display: block;
+    margin: 10px 0;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+
+  .popup-menu .content a:hover {
+    color: #0056b3;
+  }
+
+  .popup-menu .footer {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .popup-menu .footer button {
+    padding: 8px 15px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+
+  .popup-menu .footer button:hover {
+    background-color: #cc0000;
+  }
+
+  /* Overlay background */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+  }
+
+  /* Custom scrollbar for Webkit browsers (Chrome, Safari) */
+  .popup-menu .content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .popup-menu .content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .popup-menu .content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+</style>
+
+<script>
+    function openPopup() {
+        document.getElementById('popupMenu').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupMenu').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+
+
+</body>
+</html>

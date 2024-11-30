@@ -1,6 +1,9 @@
+from random import choices
+
+from django.contrib.admindocs.utils import ROLES
 from django.shortcuts import redirect
 from django import forms
-from .models import Profile, Product
+from .models import Profile, Product, Worker
 from django.http import HttpResponse, Http404
 
 
@@ -53,9 +56,37 @@ class ProductForm(forms.ModelForm):
             'image' : forms.FileInput(attrs={'class':'form-control', 'accept':'image/*','title':'Upload Image here'}),
             'product_name': forms.TextInput(attrs={'class':'form-control','placeholder':'milk'}),
             'date_time' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'date and time'}),
+            'quantity' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'10 Bags'}),
             'price_before' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Price ksh'}),
             'price_now': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Price ksh'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kisii'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+2547243563'}),
+
+        }
+MODE_OF_PAYMENT =  [
+    ('mpesa', 'Mpesa'),
+    ('bank', 'Bank'),
+    ('airtel', 'Airtel'),
+]
+ROLES_WOKERS = [
+    ('gate Keper', 'Gate Keeper'),
+    ('farm manager', 'Farm Manger'),
+    ('Farm worker', 'Farm worker'),
+    ('driver', 'Driver'),
+
+]
+class WorkerForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = '__all__'
+
+        widgets ={
+            'user': forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}),
+            'name' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Full Name'}),
+            'Id_number' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'39565758'}),
+            'role' : forms.Select(choices=ROLES_WOKERS, attrs={'class':'form-control', 'placeholder':'Feeding Animals'}),
+            'mode_payment' : forms.Select(choices=MODE_OF_PAYMENT, attrs={'class':'form-control', 'placeholder':'Mpesa'}),
+            'account' : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'012848494000/ +2543738399'}),
+
 
         }

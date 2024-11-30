@@ -30,11 +30,13 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('product', views.product, name='product'),
     path('sidebar/', views.sidebar, name='sidebar'),
+    path('new_worker', views.new_worker, name='new_worker'),
     path('login/',views.login_view,name='login'),
     path('logout/',views.logout_view,name='logout'),
     path('dashboard/',views.dashboard_view,name='dashboard'),
     path('edit/<int:id>/', views.edit,name='edit'),
-    path('delete/<int:id>/', views.delete, name='delete')
+    path('panel/fire/<int:id>/', views.fire, name='fire_worker'),
+    path('delete/<int:id>/', views.delete, name='delete'),
 
 
 

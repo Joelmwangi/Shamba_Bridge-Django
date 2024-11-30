@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="row bg-success">
     <div class="col-md-10">
 <h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
@@ -14,8 +14,9 @@
         </div>
 </div>
 <div class="row">
-    <div class="col-md-2 side-bar" style="background-color: #222d32; height: 500px; padding: 10px; text-decoration: none;">
-        <<table style="margin: 10px">
+    <div class="col-md-2 side-bar" style="background-color: #222d32; height: 80vh; padding: 10px; text-decoration: none;">
+
+        <table style="margin: 10px">
     <tr>
 
 
@@ -66,9 +67,9 @@
       <div class="col-md-4">
         <div class="info-card" style="background-color: #17a2b8;">
           <div class="card-content">
-            <h5>2</h5>
+            <h1>{{ product_count }}</h1>
             <p>No. of Products</p>
-            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{% url 'product' %}" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
           <i class="fas fa-list card-icon"></i>
         </div>
@@ -78,9 +79,9 @@
       <div class="col-md-4">
         <div class="info-card" style="background-color: #28a745;">
           <div class="card-content">
-            <h5>2</h5>
+            <h1>{{ workers_count }}</h1>
             <p>No. of Workers</p>
-            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{% url 'new_worker' %}" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
           <i class="fas fa-user-tie card-icon"></i>
         </div>
@@ -93,11 +94,17 @@
             <h5>2</h5>
             <p>Pay</p>
             <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+
           </div>
           <i class="fa-brands fa-paypal fa-lg"></i>
         </div>
       </div>
     </div>
+
+    <div class="col-md-4">
+   <canvas id="pieChart" width="400" height="400"></canvas>
+    </div>
+
   </div>
 
     </div>
@@ -130,6 +137,32 @@
     }
   </style>
 
+    <script>
+        const chartData = {{ chart_data|safe }};
 
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    data: chartData.data,
+                    backgroundColor: ['#FF6384', '#36A2EB'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Workers and Products Added'
+                    }
+                }
+            }
+        });
+    </script>
 
 {% endblock %}

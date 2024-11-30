@@ -1,11 +1,13 @@
+from multiprocessing.pool import worker
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import  redirect, get_object_or_404
 
-from panel.forms import guest, auth, ProfileForm, ProductForm
+from panel.forms import guest, auth, ProfileForm, ProductForm, WorkerForm
 from django.shortcuts import render
-from .models import Profile, Product
+from .models import Profile, Product, Worker
 from django.contrib import messages
 
 
@@ -41,7 +43,13 @@ def login_view(request):
 @auth
 def dashboard_view(request):
     data = Profile.objects.filter(user=request.user)
-    return render(request, 'dashboard.html', {'data':data})
+    product_count = Product.objects.filter(user=request.user).count()
+    workers_count = Worker.objects.filter(user=request.user).count()
+    chart_data = {
+        'labels' : ['Workers', 'Products'],
+        'data' : [workers_count, product_count]
+    }
+    return render(request, 'dashboard.html', {'data':data,'product_count': product_count, 'workers_count': workers_count, 'chart_data':chart_data})
 
 
 def logout_view(request):
@@ -93,6 +101,35 @@ def product(request):
     return render(request, 'product.html', {'form1': form1, 'data1': data1})
 
 
+
+
+@auth
+def new_worker(request):
+    if request.method == 'POST':
+        nworker = WorkerForm(request.POST, request.FILES)
+        if nworker.is_valid():
+            new_worker = nworker.save(commit=False)
+            new_worker.user = request.user
+            new_worker.save()
+            messages.success(request, 'Worker Added Succesfully')
+            return redirect('new_worker')
+        else:
+            messages.error(request, 'Worker Not Added check details please')
+    else:
+        nworker = WorkerForm()
+    worker1 = Worker.objects.filter(user=request.user)
+    return render(request, 'new_worker.html', {'nworker': nworker, 'worker1': worker1})
+@auth
+def fire(request, id):
+    worker = get_object_or_404(Worker, id=id)
+
+    try:
+        worker.delete()
+        messages.success(request, 'Worker successfully fired.')
+    except Exception as e:
+        messages.error(request, f'Error firing worker: {str(e)}')
+
+    return redirect('new_worker')
 @auth
 def edit(request, id):
     print(f"Request Method: {request.method}")
@@ -130,6 +167,7 @@ def editproduct(request, id):
     return render(request, 'product.html', {'form': form, 'product': product})
 
 
+
 def sidebar(request):
     data = Profile.objects.fillter(user=request.user)
     return render(request, 'layouts/sidebar.html', {'data': data})
@@ -145,12 +183,6 @@ def delete(request, id):
         messages.error(request, 'Productt not deleted')
 
     return redirect('product')
-
-def create_profile_view(request):
-    user = get_object_or_404(User, username="johndoe")  # Replace with the correct logic
-    profile = Profile.objects.create(user=user, name="John Doe", location="Farmville")
-    return render(request, 'profile_created.html', {'profile': profile})
-
 
 
 def panel_view(request):

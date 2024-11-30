@@ -19,12 +19,24 @@ class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=30)
     image = models.ImageField(upload_to='products_images/', blank=True)
-    date_time = models.DateField()
-    price_before = models.CharField(max_length=10)
+    date_time = models.DateTimeField()
+    quantity = models.CharField(max_length=20)
     location = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=10)
+    price_before = models.CharField(max_length=10)
     price_now = models.CharField(max_length=20)
 
 
     def __str__(self):
         return  self.product_name
+
+class Worker(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    Id_number = models.CharField(max_length=20)
+    role = models.CharField(max_length=50)
+    mode_payment = models.CharField(max_length=20)
+    account = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
