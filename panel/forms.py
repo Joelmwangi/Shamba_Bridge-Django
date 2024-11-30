@@ -84,9 +84,11 @@ class WorkerForm(forms.ModelForm):
             'user': forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}),
             'name' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Full Name'}),
             'Id_number' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'39565758'}),
+            'email': forms.TextInput(attrs={'class':'form-control', 'placeholder':'johndoe@gmail.com'}),
             'role' : forms.Select(choices=ROLES_WOKERS, attrs={'class':'form-control', 'placeholder':'Feeding Animals'}),
             'mode_payment' : forms.Select(choices=MODE_OF_PAYMENT, attrs={'class':'form-control', 'placeholder':'Mpesa'}),
             'account' : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'012848494000/ +2543738399'}),
-
-
+            'phone': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': ' +254112054071'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': ' 10,000'}),
+            'status' : forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}),
         }

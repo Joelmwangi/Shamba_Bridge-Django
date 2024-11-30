@@ -7,7 +7,7 @@ from django.shortcuts import  redirect, get_object_or_404
 
 from panel.forms import guest, auth, ProfileForm, ProductForm, WorkerForm
 from django.shortcuts import render
-from .models import Profile, Product, Worker
+from .models import Profile, Product, Worker, send_welcome_email
 from django.contrib import messages
 
 
@@ -45,13 +45,23 @@ def dashboard_view(request):
     data = Profile.objects.filter(user=request.user)
     product_count = Product.objects.filter(user=request.user).count()
     workers_count = Worker.objects.filter(user=request.user).count()
+    pending_status_count = Worker.objects.filter(user=request.user, status_salary='pending').count()
+
     chart_data = {
-        'labels' : ['Workers', 'Products'],
-        'data' : [workers_count, product_count]
+        'labels': ['Workers', 'Products', 'Pending Salaries'],
+        'data': [workers_count, product_count, pending_status_count]
     }
-    return render(request, 'dashboard.html', {'data':data,'product_count': product_count, 'workers_count': workers_count, 'chart_data':chart_data})
 
+    return render(request, 'dashboard.html', {
+        'data': data,
+        'product_count': product_count,
+        'workers_count': workers_count,
+        'pending_status_count': pending_status_count,
+        'chart_data': chart_data
+    })
 
+def supplier(request):
+    return render(request, 'supplier.html')
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -111,6 +121,9 @@ def new_worker(request):
             new_worker = nworker.save(commit=False)
             new_worker.user = request.user
             new_worker.save()
+            # send_welcome_email(new_worker.email)
+            # messages.success(request, 'Worker Added Successfully, and an email has been sent.')
+            return redirect('new_worker')
             messages.success(request, 'Worker Added Succesfully')
             return redirect('new_worker')
         else:
@@ -184,6 +197,14 @@ def delete(request, id):
 
     return redirect('product')
 
+def pay(request):
+    if request.method == 'POST':
+        worker_ids = request.POST.getlist('worker_ids')
+        workers_to_update = Worker.objects.filter(id__in=worker_ids, status='active')
+        workers_to_update.update(status='paid')
+        return redirect('pay')
+    workers = Worker.objects.filter(status='active').values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
+    return render(request, 'pay.html', {'workers': workers})
 
 def panel_view(request):
     return render(request, 'dashboard.html')

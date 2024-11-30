@@ -34,7 +34,9 @@ urlpatterns = [
     path('login/',views.login_view,name='login'),
     path('logout/',views.logout_view,name='logout'),
     path('dashboard/',views.dashboard_view,name='dashboard'),
+    path('supplier/', views.supplier, name='supplier'),
     path('edit/<int:id>/', views.edit,name='edit'),
+    path('pay/', views.pay, name='pay'),
     path('panel/fire/<int:id>/', views.fire, name='fire_worker'),
     path('delete/<int:id>/', views.delete, name='delete'),
 
