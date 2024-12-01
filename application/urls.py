@@ -26,5 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name='index'),
     path('application/', views.application_view, name='application'),
+    path('market/', views.market, name='market'),
+    path('product/<int:product_id>/', views.get_product_details, name='get_product_details'),
     path('test/', views.test, name='test'),
 ]

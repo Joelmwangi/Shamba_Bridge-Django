@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Market Place
+{% endblock %}
 
-</body>
-</html>
+
+{% block content %}
+ <div class="container my-10">
+        <div class="row">
+            {% for product in products %}
+                {% for profile in profiles %}
+                    {% endfor %}
+                <div class="col-md-3">
+                    <div class="product">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                           <img src="{% static 'assets/img/fish.png' %}">
+                        {% endif %}
+                        
+                        <h3>Product: {{ product.product_name }}</h3>
+                     <span>Ksh {{ product.price_now }}</span>
+                    <br>
+                    <span><strike>Ksh {{ product.price_before }}</strike > <span class="text-warning">-45%</span></span>
+                    <br>
+                   
+                        <p>Qty: {{ product.quantity }}</p>
+                    
+                    <p>Location: {{ product.location }}</p>
+                    <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style=""></i></p>
+                        <span><a href="tel:{{ product.phone_number }}?text=Hello, I need to order this  *{{ product.product_name }}* product"><i class="fa-solid fa-phone"></i> {{ product.phone_number }}</a> </span>
+                    <br>
+                        <button class="btn btn-success" onclick="fetchProductDetails(1)" >Order Now</button>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No products available.</p>
+            {% endfor %}
+     
+        </div>
+
+    </div>
+
+{% endblock %}
