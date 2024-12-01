@@ -4,8 +4,6 @@
 <link rel="stylesheet" href="../static/css/main.css">
 
 {% block content %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <div class="row bg-success">
     <div class="col-md-10">
         <h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
@@ -17,21 +15,24 @@
 
 <div class="row">
     <div class="col-md-2 side-bar" style="background-color: #222d32; height: 100vh; padding: 10px;">
+
         <table style="margin: 10px">
-            {% for profile in data %}
+    <tr>
+    {% for profile in data %}
             <tr>
                 <td>
                     {% if profile.image %}
-                    <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80px; height: 80px; border-radius: 50%;">
+                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80px; height: 80px; border-radius: 50%;">
                     {% else %}
-                    <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px; border-radius: 50%;">
+                        <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;  border-radius: 50%;">
                     {% endif %}
                 </td>
-            </tr>
-            {% endfor %}
-        </table>
+{% endfor %}
 
-  <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+    </tr>
+</table>
+
+        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
 
      <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
@@ -45,6 +46,8 @@
                  <div class="col-md-12" style="padding-top: 20px;">
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
                  <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                     <br>
+                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
                 <br>
 
         </div>
@@ -53,8 +56,6 @@
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i> </p>
 
            <a href="{% url 'pay' %}" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
-          <br>
-                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
         </div>
 
 
@@ -69,264 +70,77 @@
 
 
     <div class="container col-md-9">
-    <p> <i class="fa-solid fa-plus"></i> Add Payrol</p>
-<h5>Pay Workers</h5>
-        <table class="table table-bordered table-hover">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th><input type="checkbox" id="select-all" onclick="selectAll(this)"> Select All</th>
-                    <th>ID Number</th>
-                    <th>Name</th>
-                    <th>Account Number</th>
-                    <th>Bank Name</th>
-                    <th>Salary</th>
-                    <th>Pay</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="worker-table">
-                {% for worker in workers %}
-                <tr>
-                    <td><input type="checkbox" class="worker-checkbox" data-salary="{{ worker.salary }}" onchange="updateTotal()"></td>
-                    <td>{{ worker.Id_number }}</td>
-                    <td>{{ worker.name }}</td>
-                    <td>{{ worker.account }}</td>
-                    <td>{{ worker.mode_payment }}</td>
-                    <td>{{ worker.salary }}</td>
-                    <td>
-                        <button class="btn btn-success pay-btn" onclick="payWorker('{{ worker.name }}', {{ worker.salary }}, this)">Pay</button>
-                    </td>
-                    <td class="status">Pending</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="6" class="text-right">Total Salary:</th>
-                    <th id="total-salary">0</th>
-                </tr>
-            </tfoot>
-        </table>
 
-        <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-success mx-2" onclick="generateInvoice()">Generate Invoice</button>
-            <button class="btn btn-warning mx-2" onclick="viewBalance()">Balance</button>
-        </div>
+
+        <form method="POST" action="{% url 'pay' %}">
+            {% csrf_token %}
+            <table class="table table-bordered table-hover">
+
+<h2>Pending Workers Pay</h2>
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-bordered table-hover">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th>Select</th>
+                <th>ID Number</th>
+                <th>Name</th>
+                <th>Account Number</th>
+                <th>Bank Name</th>
+                <th>Salary</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for worker in pending_workers %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="worker_ids" value="{{ worker.id }}">
+                </td>
+                <td>{{ worker.Id_number }}</td>
+                <td>{{ worker.name }}</td>
+                <td>{{ worker.account }}</td>
+                <td>{{ worker.mode_payment }}</td>
+                <td>{{ worker.salary }}</td>
+                <td>{{ worker.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Pay Selected Workers</button>
+        </form>
+
+    <h2>Paid Workers</h2>
+<table class="table table-bordered table-hover">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>ID Number</th>
+            <th>Name</th>
+            <th>Account Number</th>
+            <th>Bank Name</th>
+            <th>Salary</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for worker in paid_workers %}
+        <tr>
+            <td>{{ worker.Id_number }}</td>
+            <td>{{ worker.name }}</td>
+            <td>{{ worker.account }}</td>
+            <td>{{ worker.mode_payment }}</td>
+            <td>{{ worker.salary }}</td>
+            <td>{{ worker.status }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</form>
+
+
     </div>
+
 </div>
-
-<div id="invoice-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="closeInvoiceModal()">&times;</span>
-        <h2>Pay Invoice Shamba |-| Bridge</h2>
-        <div id="invoice-details"></div>
-        <button class="btn btn-primary mt-3" onclick="printInvoice()">Print Invoice</button>
-    </div>
-</div>
-
-<script>
-    function selectAll(selectAllCheckbox) {
-        const checkboxes = document.querySelectorAll('.worker-checkbox');
-        checkboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
-        updateTotal();
-    }
-
-    function updateTotal() {
-        let total = 0;
-        const checkboxes = document.querySelectorAll('.worker-checkbox:checked');
-        checkboxes.forEach(checkbox => {
-            total += parseFloat(checkbox.getAttribute('data-salary'));
-        });
-        document.getElementById('total-salary').textContent = total.toFixed(2);
-    }
-
-    function generateInvoice() {
-        const checkboxes = document.querySelectorAll('.worker-checkbox:checked');
-        const selectedWorkers = [];
-        checkboxes.forEach(checkbox => {
-            const row = checkbox.closest('tr');
-            const worker = {
-                id: row.cells[1].textContent,
-                name: row.cells[2].textContent,
-                account: row.cells[3].textContent,
-                bank: row.cells[4].textContent,
-                salary: row.cells[5].textContent
-            };
-            selectedWorkers.push(worker);
-        });
-
-        if (selectedWorkers.length === 0) {
-            alert('No workers selected!');
-            return;
-        }
-
-        let invoiceDetails = '<table class="table table-bordered">';
-        invoiceDetails += `
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Account</th>
-                    <th>Bank</th>
-                    <th>Salary</th>
-                </tr>
-            </thead>
-            <tbody>
-        `;
-        selectedWorkers.forEach(worker => {
-            invoiceDetails += `
-                <tr>
-                    <td>${worker.id}</td>
-                    <td>${worker.name}</td>
-                    <td>${worker.account}</td>
-                    <td>${worker.bank}</td>
-                    <td>${worker.salary}</td>
-                </tr>
-            `;
-        });
-        invoiceDetails += '</tbody></table>';
-
-        document.getElementById('invoice-details').innerHTML = invoiceDetails;
-        document.getElementById('invoice-modal').style.display = 'block';
-    }
-
-    function closeInvoiceModal() {
-        document.getElementById('invoice-modal').style.display = 'none';
-    }
-
-    function printInvoice() {
-        const invoiceContent = document.getElementById('invoice-details').innerHTML;
-        const newWindow = window.open('', '_blank');
-        newWindow.document.write(`
-            <html>
-            <head>
-                <title>Pay Invoice Shamba |-| Bridge</title>
-                <style>
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        border: 1px solid black;
-                        text-align: left;
-                        padding: 8px;
-                    }
-                    th {
-                        background-color: #f2f2f2;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Pay Invoice Shamba |-| Bridge</h1>
-                ${invoiceContent}
-            </body>
-            </html>
-        `);
-        newWindow.document.close();
-        newWindow.print();
-    }
-
-    function viewBalance() {
-        alert('Balance functionality is under construction.');
-    }
-
-    function payWorker(workerName, salary, button) {
-        const confirmation = confirm(`Are you sure you want to pay ${workerName} an amount of ${salary}?`);
-        if (confirmation) {
-            // Update the status and remove the worker
-            const row = button.closest('tr');
-            const statusCell = row.querySelector('.status');
-            statusCell.textContent = 'Paid';
-            statusCell.style.color = 'green';
-            row.classList.add('paid');  // Optional: Adds a class for styling
-
-            // Remove the row after a short delay
-            setTimeout(() => {
-                row.remove();
-                alert(`${workerName} has been successfully paid and removed from the list.`);
-                updateTotal();  // Update total after row is removed
-            }, 1000);
-        }
-    }
-
-    function payWorker(workerName, salary, button) {
-     const confirmation = confirm(`Are you sure you want to pay ${workerName} an amount of ${salary}?`);
-     if (confirmation) {
-         // Update the status and remove the worker
-         const row = button.closest('tr');
-         const statusCell = row.querySelector('.status');
-         statusCell.textContent = 'Paid';
-         statusCell.style.color = 'green';
-         row.classList.add('paid');  // Optional: Adds a class for styling
-
-         // Send the payment status update to the backend
-         const workerId = row.cells[1].textContent;  // Assuming the worker's ID is in the second column
-         fetch(`/update_payment_status/${workerId}/`, {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json',
-                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,  // Add CSRF token
-             },
-             body: JSON.stringify({ status: 'Paid' })
-         })
-         .then(response => response.json())
-         .then(data => {
-             if (data.status === 'success') {
-                 setTimeout(() => {
-                     row.remove();
-                     alert(`${workerName} has been successfully paid and removed from the list.`);
-                     updateTotal();  // Update total after row is removed
-                 }, 1000);
-             } else {
-                 alert('Failed to update payment status. Please try again.');
-             }
-         })
-         .catch(error => {
-             alert('Error updating payment status');
-             console.error(error);
-         });
-     }
- }
-
-</script>
-
-<style>
-    .modal {
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%;
-    }
-
-    .close {
-        color: red;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .pay-btn {
-        font-size: 12px;
-        padding: 5px 10px;
-    }
-
-    .paid {
-        background-color: #e0ffe0;
-        color: #2e8b57;
-    }
-</style>
 
 {% endblock %}

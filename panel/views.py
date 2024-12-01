@@ -1,5 +1,3 @@
-from multiprocessing.pool import worker
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -197,14 +195,33 @@ def delete(request, id):
 
     return redirect('product')
 
+@auth
 def pay(request):
     if request.method == 'POST':
         worker_ids = request.POST.getlist('worker_ids')
-        workers_to_update = Worker.objects.filter(id__in=worker_ids, status='active')
+        workers_to_update = Worker.objects.filter(
+            id__in=worker_ids,
+            status='active',
+            user=request.user
+        )
         workers_to_update.update(status='paid')
         return redirect('pay')
-    workers = Worker.objects.filter(status='active').values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
-    return render(request, 'pay.html', {'workers': workers})
+
+    paid_workers = Worker.objects.filter(
+        user=request.user,
+        status='paid'
+    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
+
+    pending_workers = Worker.objects.filter(
+        user=request.user,
+        status='active'
+    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
+
+    return render(request, 'pay.html', {'paid_workers': paid_workers, 'pending_workers': pending_workers})
+
+
+
 
 def panel_view(request):
     return render(request, 'dashboard.html')
+

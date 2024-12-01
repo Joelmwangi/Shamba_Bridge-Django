@@ -75,6 +75,12 @@ ROLES_WOKERS = [
     ('driver', 'Driver'),
 
 ]
+
+SALARY_STATUS = [
+    ('paid', 'Paid'),
+    ('pending', 'Pending'),
+    ('Dispersed', 'Dispersed')
+]
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
@@ -90,5 +96,6 @@ class WorkerForm(forms.ModelForm):
             'account' : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'012848494000/ +2543738399'}),
             'phone': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': ' +254112054071'}),
             'salary': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': ' 10,000'}),
-            'status' : forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}),
+            'status_salary' : forms.Select(choices=SALARY_STATUS, attrs={'class': 'form-control', 'placeholder': 'User'}),
+            'status': forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}),
         }

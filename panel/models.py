@@ -50,7 +50,7 @@ class Worker(models.Model):
     phone = models.CharField(max_length=30)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=[('active', 'Active'), ('inactive', 'Inactive')])
-    status_salary = models.CharField(max_length=20, default='Pending')
+    status_salary = models.CharField(max_length=20, default="Pending")
 
     def __str__(self):
         return self.name
