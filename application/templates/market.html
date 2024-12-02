@@ -51,62 +51,75 @@ Market Place
  </div>
  
  
- 
-        <div class="row"  style="margin-top: 4%;">
-          <div class="col-md-3">
-                
-            
-                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                    
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="10000">
-      <img src="{% static 'assets/img/green.png' %}" class="d-block w-200" alt="..." height="300">
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="{% static 'assets/img/watering.png' %}" class="d-block w-200" alt="..." height="300">
-    </div>
-    <div class="carousel-item">
-      <img src="{% static 'assets/img/ladycofee.png' %}" class="d-block w-200" alt="..." height="300">
-    </div>
-  </div>
+<div class="container">
+  <div class="row" style="margin-top: 4%;">
 
-</div>
-                </div>
-                
-                </div>
-            {% for product in products %}
-                {% for profile in profiles %}
-                    {% endfor %}
-              
-                <div class="col-md-3">
-                    <div class="product">
-                        {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                           <img src="{% static 'assets/img/green.png' %}">
-                        {% endif %}
-                        
-                        <h3>Product: {{ product.product_name }}</h3>
-                     <span>Ksh {{ product.price_now }}</span>
-                    <br>
-                    <span><strike>Ksh {{ product.price_before }}</strike > <span class="text-warning">-45%</span></span>
-                    <br>
-                   
-                        <p>Qty: {{ product.quantity }}</p>
-                    
-                    <p>Location: {{ product.location }}</p>
-                    <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style=""></i></p>
-                        <span><a href="tel:{{ product.phone_number }}?text=Hello, I need to order this  *{{ product.product_name }}* product"><i class="fa-solid fa-phone"></i> {{ product.phone_number }}</a> </span>
-                    <br>
-                        <button class="btn btn-success" >Order Now</button>
-                    </div>
-                </div>
-            {% empty %}
-                <p>No products available.</p>
-            {% endfor %}
-     
+
+    <div class="col-md-3">
+      <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <img src="{% static 'assets/img/green.png' %}" class="d-block w-100" alt="..." height="300">
+          </div>
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static 'assets/img/watering.png' %}" class="d-block w-100" alt="..." height="300">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'assets/img/ladycofee.png' %}" class="d-block w-100" alt="..." height="300">
+          </div>
         </div>
+      </div>
+    </div>
+  
+  
 
+
+    <div class="col-md-9">
+      <div class="row" style="margin-top: -13%;">
+        {% for product in products %}
+          <div class="col-md-3 mb-2">
+            <div class="product border p-1">
+              {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+              {% else %}
+                <img src="{% static 'assets/img/green.png' %}" class="img-fluid">
+              {% endif %}
+
+              <h3>Product: {{ product.product_name }}</h3>
+              <span>Ksh {{ product.price_now }}</span>
+              <br>
+              <span><strike>Ksh {{ product.price_before }}</strike> <span class="text-warning">-45%</span></span>
+              <br>
+              <p>Qty: {{ product.quantity }}</p>
+              <p>Location: {{ product.location }}</p>
+              <p>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star"></i>
+              </p>
+              <span>
+                <a href="tel:{{ product.phone_number }}">
+                  <i class="fa-solid fa-phone"></i> {{ product.phone_number }}
+                </a>
+              </span>
+              <br>
+              <button class="btn btn-success">Order Now</button>
+            </div>
+          </div>
+        {% empty %}
+          <p>No products available.</p>
+        {% endfor %}
+      </div>
     </div>
 
+  </div>
+</div>
+
+  <div class="col-md-3" >
+      <p>Hello</p>
+    </div>
+ 
+</div>
 {% endblock %}
