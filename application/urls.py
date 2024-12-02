@@ -22,11 +22,15 @@ from django.contrib import admin
 from django.urls import path
 from application import views
 
+app_name = 'application'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name='index'),
     path('application/', views.application_view, name='application'),
     path('market/', views.market, name='market'),
-    path('product/<int:product_id>/', views.get_product_details, name='get_product_details'),
+    path('community/', views.community, name='community'),
+    path('chat/', views.chat_view, name='chat'),
+    path('reply/<int:message_id>/', views.post_reply, name='post_reply'),
     path('test/', views.test, name='test'),
 ]

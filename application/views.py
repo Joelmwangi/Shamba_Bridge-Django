@@ -1,11 +1,9 @@
-from itertools import product
-
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-
-from application.models import Order
+from django.core.files.storage.filesystem import FileSystemStorage
+from django.shortcuts import get_object_or_404
 from panel.models import Product, Profile
-
+from django.shortcuts import render, redirect
+from .models import Message, Reply
+from .forms import MessageForm, ReplyForm
 
 # Create your views here.
 def index(request):
@@ -19,32 +17,63 @@ def market(request):
     profiles = Profile.objects.all()
     return render(request, 'market.html', {'products': products, 'profile': profiles})
 
-def get_product_details(request, product_id):
-    try:
-        product = Product.objects.get(id=product_id)
-        data = {
-            'id': product.id,
-            'name': product.name,
-            'price_now': float(product.price_now),
-
-        }
-        return  JsonResponse({'status':'success', 'data':data})
-    except Product.DoesNotExist:
-        return JsonResponse({'status':'error', 'message':'Product not found'})
-
-def submit_order(request):
-    if request.method == 'POST':
-        product_name = request.POST['product_name']
-        price_now = request.POST['price_now']
-        payment_number = request.POST['payment_number']
-
-        Order.objects.create(
-            product_name = product_name,
-            price_now = price_now,
-            paymnet_number = payment_number
-        )
-        return redirect('success')
-
+def community(request):
+    return render(request, 'community.html')
 
 def application_view(request):
     return render(request, 'dashboard.html')
+
+
+def chat_view(request):
+    messages = Message.objects.all()
+
+    username = request.session.get('username', None)
+
+    if request.method == 'POST':
+        if 'username' in request.POST:
+            username = request.POST.get('username')
+            request.session['username'] = username
+
+        message_form = MessageForm(request.POST, request.FILES)
+        if message_form.is_valid() and username:
+            message = message_form.save(commit=False)
+            message.username = username
+            image = request.FILES.get('image')
+            if image:
+                fs = FileSystemStorage()
+                filename = fs.save(image.name, image)
+                message.image_url = fs.url(filename)
+            message.save()
+            return redirect('application:chat')
+
+        reply_form = ReplyForm(request.POST)
+        if reply_form.is_valid():
+            reply_form.save()
+            return redirect('application:chat')
+
+    else:
+        message_form = MessageForm()
+        reply_form = ReplyForm()
+
+    return render(request, 'chat.html', {
+        'messages': messages,
+        'message_form': message_form,
+        'reply_form': reply_form,
+        'username': username
+    })
+
+def post_reply(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+
+    if request.method == 'POST':
+        reply_form = ReplyForm(request.POST)
+        if reply_form.is_valid():
+            reply = reply_form.save(commit=False)
+            reply.message = message
+            reply.save()
+            return redirect('application:chat')
+
+    else:
+        reply_form = ReplyForm()
+
+    return redirect('application:chat')

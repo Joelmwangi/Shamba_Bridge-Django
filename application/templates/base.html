@@ -56,6 +56,18 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 <style>
+  #intro{
+    margin-top: 10%;
+    background:linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url("{% static 'assets/img/intro.png' %}");
+    background-size: cover;
+    background-position: center;
+    backface-visibility: initial;
+    height: 40vh;
+    padding: 20px;
+}
+#intro p{
+    font-weight: bold;
+}
     
 .open-btn {
   padding: 10px 20px;
@@ -133,7 +145,7 @@
       background-color: #cc0000;
     }
 
-    /* Overlay background */
+  
     .overlay {
       position: fixed;
       top: 0;
@@ -198,7 +210,7 @@
           <li><a href="#">Community</a></li>
           <li class="dropdown"><a href="#"><span>Portals</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="{% url 'panel' %}">Farmer</a></li>
+              <li><a href="{% url 'dashboard' %}">Farmer</a></li>
               <li class="dropdown"><a href="#"><span>Administrators</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Admin</a></li>
@@ -323,6 +335,18 @@
     document.getElementById('overlay').style.display = 'none';
   }
 </script>
+ 
+ <script>
+  function openPopup1() {
+    document.getElementById('popupMenu1').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  function closePopup1() {
+    document.getElementById('popupMenu1').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+</script>
 
 <script>
     function fetchProductDetails(productId) {
@@ -347,5 +371,10 @@
 }
 
 </script>
+
+<script>
+        AOS.init();
+    </script>
+
     </body>
 </html>
