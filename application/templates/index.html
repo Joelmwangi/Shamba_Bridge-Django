@@ -10,7 +10,7 @@ Home
 
 
         .more-text {
-            display: none; /* Hide the additional text initially */
+            display: none; 
         }
     </style>
 {% block content %}
@@ -41,9 +41,10 @@ Home
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#services">Services</a></li>            
+            <li><a href="{% url 'application:market' %}">Market</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Community</a></li>
+          <li><a href="{% url 'application:chat' %}">Community</a></li>
           <li class="dropdown"><a href="#"><span>Portals</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="http://127.0.0.1:8000/panel/dashboard/">Farmer</a></li>
@@ -61,7 +62,7 @@ Home
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn btn-success" style="background-color: green;" href="index.html#about">Get Started</a>
+{#      <a class="btn btn-success" style="background-color: green;" href="index.html#about">Get Started</a>#}
 
     </div>
   </header>

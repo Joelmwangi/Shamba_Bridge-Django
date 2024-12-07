@@ -1,7 +1,7 @@
 {% extends 'layouts/app.html' %}
 
 {% load static %}
-<link rel="stylesheet" href="../static/css/main.css">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
 {% block content %}
 <div class="row bg-success">
@@ -15,132 +15,105 @@
 
 <div class="row">
     <div class="col-md-2 side-bar" style="background-color: #222d32; height: 100vh; padding: 10px;">
-
         <table style="margin: 10px">
-    <tr>
-    {% for profile in data %}
             <tr>
+                {% for profile in data %}
                 <td>
                     {% if profile.image %}
-                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80px; height: 80px; border-radius: 50%;">
+                    <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80px; height: 80px; border-radius: 50%;">
                     {% else %}
-                        <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;  border-radius: 50%;">
+                    <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px; border-radius: 50%;">
                     {% endif %}
                 </td>
-{% endfor %}
-
-    </tr>
-</table>
+                {% endfor %}
+            </tr>
+        </table>
 
         <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
-
-     <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+            <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
 
-          <div class="col-md-12" style=" padding-top: 10px;">
-              <p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> <i> Farm Produce</i></p>
-     <a href="{% url 'product' %}" style="color: white"><i class="fa-solid fa-plus"></i>Add Product</a>
-<br>
-
-        </div>
-                 <div class="col-md-12" style="padding-top: 20px;">
-                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
-                 <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
-                     <br>
-                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
-                <br>
-
+        <div class="col-md-12" style="padding-top: 10px;">
+            <p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> <i> Farm Produce</i></p>
+            <a href="{% url 'product' %}" style="color: white"><i class="fa-solid fa-plus"></i> Add Product</a>
         </div>
 
-            <div class="col-md-12" style="padding-top: 20px;">
-                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i> </p>
-
-           <a href="{% url 'pay' %}" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
+        <div class="col-md-12" style="padding-top: 20px;">
+            <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i></p>
+            <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+            <br>
         </div>
 
-
-
-            <div class="col-md-12" style="padding-top: 20px;">
-                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i><i> Profile</i></p>
-
-     <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
+        <div class="col-md-12" style="padding-top: 20px;">
+            <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i></p>
+            <a href="{% url 'pay' %}" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
         </div>
-             </div>
 
-
-
-    <div class="container col-md-9">
-
-
-        <form method="POST" action="{% url 'pay' %}">
-            {% csrf_token %}
-            <table class="table table-bordered table-hover">
-
-<h2>Pending Workers Pay</h2>
-<form method="POST">
-    {% csrf_token %}
-    <table class="table table-bordered table-hover">
-        <thead class="bg-dark text-white">
-            <tr>
-                <th>Select</th>
-                <th>ID Number</th>
-                <th>Name</th>
-                <th>Account Number</th>
-                <th>Bank Name</th>
-                <th>Salary</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for worker in pending_workers %}
-            <tr>
-                <td>
-                    <input type="checkbox" name="worker_ids" value="{{ worker.id }}">
-                </td>
-                <td>{{ worker.Id_number }}</td>
-                <td>{{ worker.name }}</td>
-                <td>{{ worker.account }}</td>
-                <td>{{ worker.mode_payment }}</td>
-                <td>{{ worker.salary }}</td>
-                <td>{{ worker.status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <button type="submit" class="btn btn-success">Pay Selected Workers</button>
-        </form>
-
-    <h2>Paid Workers</h2>
-<table class="table table-bordered table-hover">
-    <thead class="bg-dark text-white">
-        <tr>
-            <th>ID Number</th>
-            <th>Name</th>
-            <th>Account Number</th>
-            <th>Bank Name</th>
-            <th>Salary</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for worker in paid_workers %}
-        <tr>
-            <td>{{ worker.Id_number }}</td>
-            <td>{{ worker.name }}</td>
-            <td>{{ worker.account }}</td>
-            <td>{{ worker.mode_payment }}</td>
-            <td>{{ worker.salary }}</td>
-            <td>{{ worker.status }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-</form>
-
-
+        <div class="col-md-12" style="padding-top: 20px;">
+            <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i><i> Profile</i></p>
+            <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
+        </div>
     </div>
 
+    <div class="container col-md-9">
+        <form method="POST" action="{% url 'pay' %}">
+            {% csrf_token %}
+            <h2>Pending Workers Pay</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>Select</th>
+                        <th>ID Number</th>
+                        <th>Name</th>
+                        <th>Account Number</th>
+                        <th>Bank Name</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for worker in pending_workers %}
+                    <tr>
+                        <td><input type="checkbox" name="worker_ids" value="{{ worker.id }}"></td>
+                        <td>{{ worker.Id_number }}</td>
+                        <td>{{ worker.name }}</td>
+                        <td>{{ worker.account }}</td>
+                        <td>{{ worker.mode_payment }}</td>
+                        <td>{{ worker.salary }}</td>
+                        <td>{{ worker.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-success">Pay Selected Workers</button>
+        </form>
+
+        <h2>Paid Workers</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>ID Number</th>
+                    <th>Name</th>
+                    <th>Account Number</th>
+                    <th>Bank Name</th>
+                    <th>Salary</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for worker in paid_workers %}
+                <tr>
+                    <td>{{ worker.Id_number }}</td>
+                    <td>{{ worker.name }}</td>
+                    <td>{{ worker.account }}</td>
+                    <td>{{ worker.mode_payment }}</td>
+                    <td>{{ worker.salary }}</td>
+                    <td>{{ worker.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

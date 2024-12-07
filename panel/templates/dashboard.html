@@ -1,13 +1,12 @@
 {% extends 'layouts/app.html' %}
 
 {% load static %}
-<link rel="stylesheet" href="../static/css/main.css">
 
 {% block content %}
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="row bg-success">
     <div class="col-md-10">
-<h5 style="padding: 10px;">Dashboard : {{ request.user.username }} {{ profile.name.url }}</h5>
+<h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
         </div>
         <div class="col-md-2 p-3">
 
@@ -19,11 +18,14 @@
 
         <table style="margin: 10px">
     <tr>
+
+
+
     {% for profile in data %}
             <tr>
                 <td>
                     {% if profile.image %}
-                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80px; height: 80px; border-radius: 50%;">
+                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" style="width: 80px; height: 80px; border-radius: 50%;">
                     {% else %}
                         <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;  border-radius: 50%;">
                     {% endif %}
@@ -32,10 +34,9 @@
 
     </tr>
 </table>
+    <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
 
-        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
-
-     <a href="#" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+     <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
 
           <div class="col-md-12" style=" padding-top: 10px;">
@@ -48,7 +49,7 @@
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
                  <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
                      <br>
-                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
+{#                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>#}
                 <br>
 
         </div>
@@ -67,6 +68,8 @@
      <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
         </div>
              </div>
+
+
 
 
 <div class="container mt-4">
@@ -99,10 +102,9 @@
       <div class="col-md-4">
         <div class="info-card" style="background-color: #fd7e14;">
           <div class="card-content">
-
-            <h1>{{ pending_status_count }}</h1>
-               <p>No. of Bills</p>
-            <a href="{% url 'pay' %}" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <h5>2</h5>
+            <p>Pay</p>
+            <a href="#" class="more-info">More info <i class="fas fa-arrow-circle-right"></i></a>
 
           </div>
           <i class="fa-brands fa-paypal fa-lg"></i>
@@ -115,158 +117,8 @@
     </div>
 
   </div>
-<div class="overlay" id="overlay" onclick="closePopup()"></div>
 
-<!-- Pop-Up Menu -->
-<div class="popup-menu" id="popupMenu">
-  <div class="header">+ Profile Pic</div>
-  <div class="content">
-
- <form action="" method="POST" enctype="multipart/form-data" style="padding: 10px;">
-      {% for profile in data %}
-            <tr>
-                <td>
-                    {% if profile.image %}
-                        <img src="{{ profile.image.url }}" alt="{{ profile.name }}" onclick="openPopup()" style="width: 80%; height: 80%; border-radius: 20px;">
-                    {% else %}
-                        <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;  border-radius: 50%;">
-                    {% endif %}
-                </td>
-
-
-{% endfor %}
-
-   <td>Username: {{ request.user.username }}</td>
- <td><a href="{% url 'about' %}">Update here</a></td>
-</form>
-
-  </div>
-  <div class="footer" >
-    <button onclick="closePopup()">Close</button>
-  </div>
-
-</div>
-
-          </div>
-</div>
     </div>
-
-<style>
-     .info-card {
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .info-card .card-icon {
-      font-size: 3rem;
-      opacity: 0.3;
-    }
-    .info-card .card-content h5 {
-      margin: 0;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    .info-card .card-content p {
-      margin: 0;
-    }
-    .info-card .more-info {
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: bold;
-    }
-.open-btn {
-  padding: 10px 20px;
-  background-color: darkslategrey;
-  color: #ffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.open-btn:hover{
-  background-color: darkgreen;
-}
-
-.popup-menu {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 380px;
-      background: #fff;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      display: none;
-      z-index: 1000;
-    }
-
-    .popup-menu .header {
-      padding: 15px;
-      background: green;
-      color: #fff;
-      border-radius: 10px 10px 0 0;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .popup-menu .content {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .popup-menu .content a {
-      display: block;
-      margin: 10px 0;
-      color: #007bff;
-      text-decoration: none;
-      font-size: 16px;
-      transition: color 0.3s;
-    }
-
-    .popup-menu .content a:hover {
-      color: #0056b3;
-    }
-
-    .popup-menu .footer {
-      padding: 10px;
-      text-align: center;
-    }
-
-    .popup-menu .footer button {
-      padding: 8px 15px;
-      background-color: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s;
-    }
-
-    .popup-menu .footer button:hover {
-      background-color: #cc0000;
-    }
-
-    /* Overlay background */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      z-index: 999;
-    }
-
-</style>
   <style>
     .info-card {
       color: white;
@@ -306,7 +158,7 @@
                 labels: chartData.labels,
                 datasets: [{
                     data: chartData.data,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    backgroundColor: ['#FF6384', '#36A2EB'],
                 }]
             },
             options: {
@@ -323,15 +175,5 @@
             }
         });
     </script>
-<script>
-    function openPopup() {
-        document.getElementById('popupMenu').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
 
-    function closePopup() {
-        document.getElementById('popupMenu').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
-</script>
 {% endblock %}

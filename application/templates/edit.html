@@ -1,0 +1,26 @@
+
+{% block title %}
+Edit Student
+{% endblock %}
+
+
+{% block content %}
+<h3 style="text-align: center; font-size: 30px;">Edit student</h3>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <button class="btn btn-success">Update</button>
+    <a href="" class="btn btn-secondary">Cancel</a>
+</form>
+
+        </div>
+
+    <div class="col-md-3"></div>
+</div>
+
+
+{% endblock %}

@@ -156,6 +156,9 @@
       display: none;
       z-index: 999;
     }
+  
+
+
 </style>
 <style>
         .product {
@@ -164,7 +167,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-top: 20vh;
+            margin-top: 10vh;
         }
         .product span{
             
@@ -206,8 +209,9 @@
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#services">Services</a></li>
+            <li><a href="{% url 'application:market' %}">Market</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Community</a></li>
+          <li><a href="{% url 'application:chat' %}">Community</a></li>
           <li class="dropdown"><a href="#"><span>Portals</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'dashboard' %}">Farmer</a></li>
@@ -308,7 +312,7 @@
 
 
  <a href="https://wa.me/+254112054071?text=Hello Shamba Bridge help Me complete my orders!" target="_blank" class="whatsapp-button">
-        <i class="fa-brands fa-whatsapp"></i>
+        <i class="fa-brands fa-whatsapp"></i> <span style="width: 300px; background-color: green;">Call us 24/7</span>
     </a>
 
 

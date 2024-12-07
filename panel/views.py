@@ -1,3 +1,5 @@
+from multiprocessing.pool import worker
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -5,7 +7,7 @@ from django.shortcuts import  redirect, get_object_or_404
 
 from panel.forms import guest, auth, ProfileForm, ProductForm, WorkerForm
 from django.shortcuts import render
-from .models import Profile, Product, Worker, send_welcome_email
+from .models import Profile, Product, Worker
 from django.contrib import messages
 
 
@@ -43,23 +45,13 @@ def dashboard_view(request):
     data = Profile.objects.filter(user=request.user)
     product_count = Product.objects.filter(user=request.user).count()
     workers_count = Worker.objects.filter(user=request.user).count()
-    pending_status_count = Worker.objects.filter(user=request.user, status_salary='pending').count()
-
     chart_data = {
-        'labels': ['Workers', 'Products', 'Pending Salaries'],
-        'data': [workers_count, product_count, pending_status_count]
+        'labels' : ['Workers', 'Products'],
+        'data' : [workers_count, product_count]
     }
+    return render(request, 'dashboard.html', {'data':data,'product_count': product_count, 'workers_count': workers_count, 'chart_data':chart_data})
 
-    return render(request, 'dashboard.html', {
-        'data': data,
-        'product_count': product_count,
-        'workers_count': workers_count,
-        'pending_status_count': pending_status_count,
-        'chart_data': chart_data
-    })
 
-def supplier(request):
-    return render(request, 'supplier.html')
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -119,9 +111,6 @@ def new_worker(request):
             new_worker = nworker.save(commit=False)
             new_worker.user = request.user
             new_worker.save()
-            # send_welcome_email(new_worker.email)
-            # messages.success(request, 'Worker Added Successfully, and an email has been sent.')
-            return redirect('new_worker')
             messages.success(request, 'Worker Added Succesfully')
             return redirect('new_worker')
         else:
@@ -176,8 +165,32 @@ def editproduct(request, id):
     else:
         form = ProductForm(instance=profile)
     return render(request, 'product.html', {'form': form, 'product': product})
+def pay(request):
+    if request.method == 'POST':
+        worker_ids = request.POST.getlist('worker_ids')
+        workers_to_update = Worker.objects.filter(
+            id__in=worker_ids,
+            status='Active',  # Corrected to match the 'Active' status
+            user=request.user,
+            is_active=True  # Only process active workers
+        )
+        workers_to_update.update(status='Paid')  # Update status to 'Paid'
+        return redirect('pay')
 
+    # Filter active workers with status 'Pending'
+    paid_workers = Worker.objects.filter(
+        user=request.user,
+        status='Paid',  # Corrected to match the 'Paid' status
+        is_active=True  # Only show active paid workers
+    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
 
+    pending_workers = Worker.objects.filter(
+        user=request.user,
+        status='Active',  # Corrected to match the 'Active' status
+        is_active=True  # Only show active pending workers
+    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
+
+    return render(request, 'pay.html', {'paid_workers': paid_workers, 'pending_workers': pending_workers})
 
 def sidebar(request):
     data = Profile.objects.fillter(user=request.user)
@@ -195,33 +208,6 @@ def delete(request, id):
 
     return redirect('product')
 
-@auth
-def pay(request):
-    if request.method == 'POST':
-        worker_ids = request.POST.getlist('worker_ids')
-        workers_to_update = Worker.objects.filter(
-            id__in=worker_ids,
-            status='active',
-            user=request.user
-        )
-        workers_to_update.update(status='paid')
-        return redirect('pay')
-
-    paid_workers = Worker.objects.filter(
-        user=request.user,
-        status='paid'
-    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
-
-    pending_workers = Worker.objects.filter(
-        user=request.user,
-        status='active'
-    ).values('id', 'Id_number', 'name', 'account', 'mode_payment', 'salary', 'status')
-
-    return render(request, 'pay.html', {'paid_workers': paid_workers, 'pending_workers': pending_workers})
-
-
-
 
 def panel_view(request):
     return render(request, 'dashboard.html')
-

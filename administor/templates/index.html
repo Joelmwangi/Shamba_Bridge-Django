@@ -1,0 +1,63 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    <title>Mail App</title>
+</head>
+<body>
+    <div>
+        <h1>Django Mail App</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="address">To:</label>
+            <input id="address" type="email" name="address"/>
+
+            <label for="subject">Subject:</label>
+            <input id="subject" name="subject"/>
+
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message"></textarea>
+
+            <input type="submit">
+        </form>
+        <p>{{ result }}</p>
+    </div>
+
+<style>
+    h1{
+    margin: 10px auto 20px auto;
+    color: green;
+    display: block;
+}
+input{
+    width: 300px;
+    height: 25px;
+    display: block;
+    margin-bottom: 20px;
+}
+div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+textarea{
+    resize:none;
+    width: 302px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+input[type="submit"]{
+    width:150px;
+    height: 30px;
+    background-color: green;
+    color:white;
+    border: none;
+    margin: 0 auto;
+}
+</style>
+</body>
+</html>

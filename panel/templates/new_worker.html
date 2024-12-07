@@ -20,7 +20,7 @@
 <h5 style="padding: 10px;">Dashboard : {{ request.user.username }}</h5>
 
         </div>
-        <div class="col-md-2 p-1" >
+        <div class="col-md-2 p-3">
 
 <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> LogOut</a>
         </div>
@@ -33,17 +33,8 @@
 
     </tr>
 </table>
-             <table style="margin: 10px">
-    <tr>
 
-
-{#  <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 100px; height: 80px;  border-radius: 50%;">#}
-
-
-    </tr>
-</table>
-
-       <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+     <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
 
      <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
@@ -57,6 +48,8 @@
                  <div class="col-md-12" style="padding-top: 20px;">
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
                  <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                     <br>
+{#                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>#}
                 <br>
 
         </div>
@@ -65,9 +58,7 @@
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i> </p>
 
            <a href="{% url 'pay' %}" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
-           <br>
-                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
-            </div>
+        </div>
 
 
 
@@ -80,11 +71,11 @@
 
 
 
+
+
 <div class="container md-3">
 <p onclick="openPopup()" style="color: #0a3622; cursor:pointer;"> <i class="fa-solid fa-user-plus"></i>Add Worker</p>
-
 <div class="table">
-       <div class="scrollable-div">
     <table class="table table-dark" style="border: 2px dotted green;">
         <thead class="thead-dark">
                       {% if messages %}
@@ -105,15 +96,11 @@
                 <th>Id-Number</th>
                 <th>Role</th>
                 <th>Mode Of payment</th>
-                <th>Bank / <br>Mpesa/Airtel </th>
-                <th>Email</th>
+                <th>Bank acount/ Mpesa/Airtel Nol</th>
                <th> Actions</th>
-
-                 <th></th>
                 <th></th>
             </tr>
         </thead>
-
         <tbody>
             {% for new_worker in worker1 %}
             <tr>
@@ -123,18 +110,11 @@
                 <td>{{ new_worker.role }}</td>
                 <td>{{ new_worker.mode_payment }}</td>
                 <td>{{ new_worker.account }}</td>
-                <td>
-                    <a href="mailto:{{ new_worker.email }}"><i class="fa-solid fa-envelope"></i> Mail</a>
-                </td>
-                <td>
-                    <a href="tel:+254{{ new_worker.phone }}"><i class="fa-solid fa-phone"></i> Call</a>
-                </td>
 
                 <td>
                     <a href="#" onclick="openPopup()" ><i class="fa-regular fa-pen-to-square"></i> EDIT</a>
                 </td>
                 <td>
-
                     <a href="{% url 'fire_worker' new_worker.id %}" class="btn btn-danger" type="button"
                        onclick="return confirm('Are you sure you want to fire this worker?');"><i class="fa-solid fa-trash"></i> FIRE</a>
                 </td>
@@ -145,7 +125,7 @@
 </div>
 
 
-</div>
+
 
 
 <div class="col-md-3" style="padding:  5px; max-width: 500px; height: 500px;">
@@ -177,15 +157,15 @@
 </div>
 </div>
 <style>
-
+/* Style the table container */
 .table {
     margin: 20px auto;
     width: 90%;
-    border: 2px solid #28a745;
+    border: 2px solid #28a745; /* Solid green border */
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* White background for the table container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a clean look */
 }
 
 /* Table styles */
@@ -196,40 +176,34 @@
     font-family: Arial, sans-serif;
 }
 
-
+/* Header styles */
 .thead-dark th {
     background-color: #343a40;
     color: #fff;
     padding: 15px;
     font-size: 14px;
-    border-bottom: 2px solid #28a745;
+    border-bottom: 2px solid #28a745; /* Green line separating the header */
     text-transform: uppercase;
 }
 
 /* Row styles */
 .table-dark tbody tr {
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
 .table-dark tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Light grey on hover */
 }
 
-
+/* Alternate row background */
 .table-dark tbody tr:nth-child(odd) {
     background-color: #f8f9fa;
 }
 .table-dark tbody tr:nth-child(even) {
     background-color: #e9ecef;
 }
-.scrollable-div {
-    max-height: 60vh;
-    overflow-y: auto;
-    overflow-x: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
 
+/* Cell styles */
 .table-dark td {
     padding: 10px;
     font-size: 14px;

@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
-from django.conf import settings
 
 
 
@@ -24,33 +22,42 @@ class Product(models.Model):
     date_time = models.DateTimeField()
     quantity = models.CharField(max_length=20)
     location = models.CharField(max_length=20)
-    phone_number = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=10)
     price_before = models.CharField(max_length=10)
     price_now = models.CharField(max_length=20)
 
 
-def send_welcome_email(user_email):
-    subject = 'Welcome to Our Platform'
-    message = 'Thank you for registering on our platform. We are excited to have you!'
-    from_email = settings.EMAIL_HOST_USER
-    recipient_list = [user_email]
-
-    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-
     def __str__(self):
         return  self.product_name
 
+
 class Worker(models.Model):
+    # ForeignKey reference to the User model
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # Fields for the worker's information
     name = models.CharField(max_length=50)
     Id_number = models.CharField(max_length=20)
     role = models.CharField(max_length=50)
     mode_payment = models.CharField(max_length=20)
     account = models.CharField(max_length=20)
-    phone = models.CharField(max_length=30)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, choices=[('active', 'Active'), ('inactive', 'Inactive')])
-    status_salary = models.CharField(max_length=20, default="Pending")
+
+    # Choices for status and is_active fields
+    PENDING = 'Pending'
+    ACTIVE = 'Active'
+    STATUS_CHOICES = [
+        (PENDING, 'Inactive'),
+        (ACTIVE, 'Active'),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=PENDING
+    )
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

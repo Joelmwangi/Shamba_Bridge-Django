@@ -28,16 +28,13 @@
 <div class="row">
     <div class="col-md-2 side-bar" style="background-color: #222d32; height: 100vh; padding: 10px; text-decoration: none;">
    {% load static %}
-        <table style="margin: 10px">
+<table style="margin: 10px">
+    <tr>
 
-
-{#  <img src="{% static 'images/product.png' %}" alt="No Image" style="width: 20vh; height: 20vh;  border-radius: 50%;" onclick="closePopup()">#}
-
-
-
+    </tr>
 </table>
 
-  <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
+      <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
 
      <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
@@ -51,9 +48,9 @@
                  <div class="col-md-12" style="padding-top: 20px;">
                 <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
                  <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                     <br>
+{#                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>#}
                 <br>
-
-                   <a href="{% url 'supplier' %}" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
 
         </div>
 
@@ -74,10 +71,10 @@
 
 
 
+
 <div class="container md-3">
 <p onclick="openPopup()" style="color: #0a3622; cursor:pointer;"> <i class="fa-solid fa-user-plus"></i>Add Product</p>
 <div class="table">
-      <div class="scrollable-div">
     <table class="table table-dark" style="border: 2px dotted green;">
         <thead class="thead-dark">
                       {% if messages %}
@@ -109,7 +106,7 @@
             <tr>
                 <td>
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 80px; height: 80px;"  onclick="openPopup1()">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 80px; height: 80px;">
                     {% else %}
                         <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;">
                     {% endif %}
@@ -132,7 +129,7 @@
         </tbody>
     </table>
 </div>
-</div>
+
 
 
 
@@ -159,39 +156,14 @@
 
 
 
-
 </div>
 </div>
-
-<div class="popup-menu" id="popupMenu1">
-  <div class="header"> Product Preview </div>
-    <p onclick="closePopup1()" class="p">Close</p>
-
-  <div class="content">
-   {% for product in data1 %}
-            <tr>
-                <td>
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 40vh; height: 40vh;"  onclick="openPopup1()">
-                    {% else %}
-                        <img src="{% static 'images/avatar.png' %}" alt="No Image" style="width: 80px; height: 80px;">
-                    {% endif %}
-      {% endfor %}
-
-                    <h1>{{ product.product_name }} </h1>
-  </div>
 
           </div>
 </div>
 </div>
 <style>
-.scrollable-div {
-    max-height: 60vh;
-    overflow-y: auto;
-    overflow-x: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
+/* Style the table container */
 .table {
     margin: 20px auto;
     width: 90%;
@@ -216,20 +188,20 @@
     color: #fff;
     padding: 15px;
     font-size: 14px;
-    border-bottom: 2px solid #28a745;
+    border-bottom: 2px solid #28a745; /* Green line separating the header */
     text-transform: uppercase;
 }
 
-
+/* Row styles */
 .table-dark tbody tr {
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
 .table-dark tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Light grey on hover */
 }
 
-
+/* Alternate row background */
 .table-dark tbody tr:nth-child(odd) {
     background-color: #f8f9fa;
 }
@@ -237,22 +209,22 @@
     background-color: #e9ecef;
 }
 
-
+/* Cell styles */
 .table-dark td {
     padding: 10px;
     font-size: 14px;
     color: #333;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Subtle border between cells */
     vertical-align: middle;
 }
 
-
+/* Image styles */
 .table-dark img {
-    border-radius: 10px;
+    border-radius: 50%;
     width: 60px;
     height: 60px;
-    object-fit: cover;
-    border: 2px solid #28a745;
+    object-fit: cover; /* Ensures uniform image display */
+    border: 2px solid #28a745; /* Green border around images */
 }
 
 /* Button styles */
@@ -291,7 +263,33 @@
     background-color: #c82333; /* Darker red on hover */
 }
 
+/* Pagination styles (if needed) */
+.table ~ .pagination {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 14px;
+}
 
+.pagination .page-link {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #343a40;
+    background-color: #f8f9fa;
+}
+
+.pagination .page-link:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.pagination .active {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+}
 
 
 </style>
@@ -414,16 +412,6 @@
 
     function closePopup() {
         document.getElementById('popupMenu').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    function openPopup1() {
-        document.getElementById('popupMenu1').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
-
-    function closePopup1() {
-        document.getElementById('popupMenu1').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
 </script>
