@@ -57,6 +57,7 @@ class ProductForm(forms.ModelForm):
             'product_name': forms.TextInput(attrs={'class':'form-control','placeholder':'milk'}),
             'date_time' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'date and time'}),
             'quantity' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'10 Bags'}),
+            'description' : forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Sweet apples are goot for your health'}),
             'price_before' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Price ksh'}),
             'price_now': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Price ksh'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kisii'}),

@@ -46,11 +46,12 @@ def dashboard_view(request):
     data = Profile.objects.filter(user=request.user)
     product_count = Product.objects.filter(user=request.user).count()
     workers_count = Worker.objects.filter(user=request.user).count()
+    bills_count = Worker.objects.filter(user=request.user, status='Active').count()
     chart_data = {
-        'labels' : ['Workers', 'Products'],
-        'data' : [workers_count, product_count]
+        'labels' : ['Workers', 'Products', 'Bills'],
+        'data' : [workers_count, product_count, bills_count]
     }
-    return render(request, 'dashboard.html', {'data':data,'product_count': product_count, 'workers_count': workers_count, 'chart_data':chart_data})
+    return render(request, 'dashboard.html', {'data':data,'product_count': product_count, 'workers_count': workers_count, 'bills_count': bills_count, 'chart_data':chart_data})
 
 
 def logout_view(request):

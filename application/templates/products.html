@@ -45,8 +45,8 @@ Market Place
                 <div class="col-md-4">
                     <div class="image-container">
                         <div class="zoom-out">
-                            {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% if products.image %}
+                                <img src="{{ products.image.url }}" alt="{{ product.name }}">
                             {% else %}
                                 <img src="{% static 'assets/img/green.png' %}" class="img-fluid">
                             {% endif %}
@@ -55,7 +55,7 @@ Market Place
                 </div>
 
                 <div class="col-md-8 border p-1">
-                    <h5>{{ product.description }}</h5>
+                    <h5>{{ products.description }}</h5>
                     <p>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
@@ -70,16 +70,16 @@ Market Place
                             <span style="color: whitesmoke; font-weight: bold; font-size: 20px; font-family: sans-serif;"><i>Nov.20th - Dec.30th</i></span>
                         </div>
 
-                        <span style="font-size: 23px; font-weight: bold;">Ksh {{ product.price_now }}  <strike style="font-size: 15px; color: grey; font-weight: bold"><span style="font-weight: bold;">Ksh {{ product.price_before }}</span></strike> <span class="text-warning bg-danger" style="font-size: 15px; border-radius: 2px; padding: 2px;">-45%</span> </span>
+                        <span style="font-size: 23px; font-weight: bold;">Ksh {{ products.price_now }}  <strike style="font-size: 15px; color: grey; font-weight: bold"><span style="font-weight: bold;">Ksh {{ products.price_before }}</span></strike> <span class="text-warning bg-danger" style="font-size: 15px; border-radius: 2px; padding: 2px;">-45%</span> </span>
                     </div>
 
                     <span>
-                        Delivery Information:  <i class="fa-solid fa-truck"></i>  Ships From {{ product.location }} to your <i>location</i>  within <span style="color: darkslategrey;">1-3 days</span>
+                        Delivery Information:  <i class="fa-solid fa-truck"></i>  Ships From {{ products.location }} to your <i>location</i>  within <span style="color: darkslategrey;">1-3 days</span>
                     </span>
                     <br>
-                    <p>Available Qty: {{ product.quantity }}
-                        <a href="tel:{{ product.phone_number }}">
-                            <i class="fa-solid fa-phone"></i>   {{ product.phone_number }}
+                    <p>Available Qty: {{ products.quantity }}
+                        <a href="tel:{{ products.phone_number }}">
+                            <i class="fa-solid fa-phone"></i>   {{ products.phone_number }}
                         </a>
                     </p>
 

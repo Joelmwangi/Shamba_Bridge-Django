@@ -21,6 +21,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products_images/', blank=True)
     date_time = models.DateTimeField()
     quantity = models.CharField(max_length=20)
+    description = models.TextField(max_length=120)
     location = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=10)
     price_before = models.CharField(max_length=10)
