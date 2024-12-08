@@ -56,6 +56,18 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 <style>
+  #intro{
+    margin-top: 10%;
+    background:linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url("{% static 'assets/img/intro.png' %}");
+    background-size: cover;
+    background-position: center;
+    backface-visibility: initial;
+    height: 40vh;
+    padding: 20px;
+}
+#intro p{
+    font-weight: bold;
+}
     
 .open-btn {
   padding: 10px 20px;
@@ -133,7 +145,7 @@
       background-color: #cc0000;
     }
 
-    /* Overlay background */
+  
     .overlay {
       position: fixed;
       top: 0;
@@ -144,8 +156,42 @@
       display: none;
       z-index: 999;
     }
-</style>
+  
 
+
+</style>
+<style>
+        .product {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 10vh;
+        }
+        .product span{
+            
+          margin-top:10px;
+        }
+        .product  a{
+            cursor: pointer;
+            color: blue;
+        }
+        .product img {
+            width: 60%;
+            height: 20vh;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .product h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product p {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
  <header id="header" class="header d-flex align-items-center fixed-top">
@@ -163,11 +209,12 @@
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#services">Services</a></li>
+            <li><a href="{% url 'application:market' %}">Market</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Community</a></li>
+          <li><a href="{% url 'application:chat' %}">Community</a></li>
           <li class="dropdown"><a href="#"><span>Portals</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="{% url 'panel' %}">Farmer</a></li>
+              <li><a href="{% url 'dashboard' %}">Farmer</a></li>
               <li class="dropdown"><a href="#"><span>Administrators</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Admin</a></li>
@@ -265,7 +312,7 @@
 
 
  <a href="https://wa.me/+254112054071?text=Hello Shamba Bridge help Me complete my orders!" target="_blank" class="whatsapp-button">
-        <i class="fa-brands fa-whatsapp"></i>
+        <i class="fa-brands fa-whatsapp"></i> <span style="width: 300px; background-color: green;">Call us 24/7</span>
     </a>
 
 
@@ -292,5 +339,46 @@
     document.getElementById('overlay').style.display = 'none';
   }
 </script>
+ 
+ <script>
+  function openPopup1() {
+    document.getElementById('popupMenu1').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  function closePopup1() {
+    document.getElementById('popupMenu1').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+</script>
+
+<script>
+    function fetchProductDetails(productId) {
+    fetch(`/product/${productId}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Populate the modal with product details
+                document.getElementById('id_product_name').value = data.data.name;
+                document.getElementById('id_product_price').value = data.data.price;
+
+                // Show the modal
+                let modal = new bootstrap.Modal(document.getElementById('orderModal'));
+                modal.show();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching product details:', error);
+        });
+}
+
+</script>
+
+<script>
+        AOS.init();
+    </script>
+
     </body>
 </html>

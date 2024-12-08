@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Market Place
+{% endblock %}
+
+
+{% block content %}
+    
+<div class="page-title dark-background aos-init aos-animate" data-aos="fade" id="intro">
+    <h2><b>Market Place</b></h2>
+  <p data-aos="fade-up" data-aos-delay="200">At Shamba Bridge Marketplace, we empower farmers by connecting them directly with customers. Discover fresh, locally-grown produce and support your community while enjoying fair prices. Farmers can showcase their products, and buyers can access 
+      quality goods straight from the source. Together, we’re building a sustainable and thriving marketplace for everyone!</p>
+    <div class="breadcrumbs">
+        <ol>
+            <li>
+                <a href="#">Home</a>
+            </li>
+            <li class="current">
+                /
+                Market 
+            </li>
+        </ol>
+    </div>
+</div>
+ <div class="container my-10">
+ <div class="row" style="margin-top: 5%; margin-left: 10%">
+     <div class="col-md-2" style="margin-left: -5%">
+         <h5>Selling is not the same again.<hr class="bg-success"> </h5>
+         <p>Selling has never been easy for farmers—until now.
+             <spna style="color: #0a3622; font-weight: bold;"> Shamba</spna>  <span style="color: darkred; font-weight: bold;">Bridge </span>has streamlined the process, making 
+             it simple and convenient to buy and sell farm products online.</p>
+     </div>
+     <div class="col-md-10">
+           <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                    
+  <div class="carousel-inner">
+      
+    <div class="carousel-item active" data-bs-interval="10000">
+      <img src="{% static 'assets/img/selling.png' %}" class="d-block w-500" alt="..." width="950" height="300">
+    </div>
+    <div class="carousel-item" data-bs-interval="2000">
+      <img src="{% static 'assets/img/happyfarmers.png' %}" class="d-block w-500" alt="..." width="950" height="300">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'assets/img/kids_goat.png' %}" class="d-block w-500" alt="..." width="950" height="300">
+    </div>
+  </div>
+
+</div>
+     </div>
+ </div>
+ 
+ 
+<div class="container">
+  <div class="row" style="margin-top: 4%;">
+
+
+    <div class="col-md-3">
+      <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <img src="{% static 'assets/img/ladieslaptop.png' %}" class="d-block w-100" alt="..." height="320">
+          </div>
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static 'assets/img/watering.png' %}" class="d-block w-100" alt="..." height="320">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'assets/img/ladycofee.png' %}" class="d-block w-100" alt="..." height="320">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+
+
+<div class="col-md-9">
+  <div class="row" style="margin-top: -13%;"   >
+    {% for product in products %}
+      <div class="col-md-4 mb-2"> 
+        <div class="product border p-1">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid w-100 h-50">
+          {% else %}
+            <img src="{% static 'assets/img/green.png' %}" class="img-fluid">
+          {% endif %}
+
+      <br>
+            <p class="align-text-center"><b>{{ product.description }}</b></p>
+         
+        
+      
+            <span class="text-danger"><b>Ksh {{ product.price_now }}</b></span>
+  
+       
+          <p>
+            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+            <i class="fa-solid fa-star"></i>
+          </p>
+     
+        
+ 
+        
+     <a class="btn btn-success mt-2 text-warning" href="{% url 'application:view_product' id=product.id %}">Get this.</a>
+        
+        </div>
+      </div>
+    {% empty %}
+      <p>No products available.</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+ 
+ 
+  
+</div>
+</div>
+ </div>
+{% endblock %}

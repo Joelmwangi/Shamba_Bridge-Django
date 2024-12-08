@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Community
+
+{% endblock %}
+{% block content %}
+    <style>
+ 
+
+        {#.container {#}
+        {#    width: 80%;#}
+        {#    margin: 50px auto;#}
+        {#    background-color: white;#}
+        {#    padding: 10px;#}
+        {#    border-radius: 8px;#}
+        {#    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);#}
+        {#{#}
+        {##}
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .message-box {
+            background-color: #eaeaea;
+            padding: 1px;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .message-box p {
+            margin: 5px 0;
+        }
+
+        .message-meta {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .reply-box {
+            margin-left: 30px;
+            padding: 10px;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .reply-box p {
+            margin: 5px 0;
+        }
+
+        .message-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .message-form input[type="text"],
+        .message-form textarea {
+            padding: 5px;
+            border-radius: 8px;
+            border-bottom: 1px solid #ccc;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 10px;
+        }
+
+        .message-form button {
+            padding: 3px;
+            background-color: #064806;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .message-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .upload-section input[type="file"] {
+            padding: 10px;
+        }
+
+
+        .uploaded-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+
+        .messages-container {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .messages-container img{
+            height: 100px;
+        }
+.replies{
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+    </style>
+
+<body>
+
+<div class="page-title dark-background aos-init aos-animate" data-aos="fade" id="intro">
+    <h2><b>Community</b></h2>
+  <p data-aos="fade-up" data-aos-delay="200">We’re thrilled to have you here! This is your go-to space to connect, learn, and grow together. Have questions? Our specialists are here to help. Feel free to ask, 
+      share ideas, or explore solutions tailored to your needs. Let’s build a stronger, smarter community—together!</p>
+    <div class="breadcrumbs">
+        <ol>
+            <li>
+                <a href="#">Home</a>
+            </li>
+            <li class="current">
+                /
+                Community
+            </li>
+        </ol>
+    </div>
+</div>
+    <div class="container" >
+ 
+
+    <div class="popup-menu" id="popupMenu1">
+    
+            <h2 class="header">Post a new message</h2>
+          <div class="message-form">
+              <div class="content">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                          
+                {{ message_form.as_p }}
+
+               
+                <div class="upload-section">
+                    <label for="image">Upload </label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+
+                <button type="submit">Post Message</button>
+            </form>
+        </div>
+                        
+              
+              
+              
+                   <div class="footer">
+                  <button onclick="closePopup1()">Close</button>
+              </div>
+        
+    </div>
+    </div>
+        <div class="message-form" data-aos="zoom-out" data-aos-delay="300">
+            
+            <h2 >Enter your username</h2>
+            <form method="POST" action="{% url 'application:chat' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Enter username" required>
+                <button type="submit">Set Username</button>
+               
+            </form>
+            
+             <button onclick="openPopup1()" class="btn btn-success" style="width: 10%; margin-left: 22%; margin-top: -3%">Post</button>
+        </div>
+         
+      
+        <div class="messages-container" style="margin-top: 2%;">
+            {% for message in messages %}
+           
+                
+                
+                <div class="row message-box">
+                <div class="col-md-3" >
+                      {% if message.image_url %}
+                    <img src="{{ message.image_url }}" alt="{{ message.username }}" >
+                    {% else  %}
+                    <img src="{% static 'assets/img/f' %}">
+                {% endif %}
+                
+                </div>
+                <div class="col-md-3">
+                
+                    <p><strong><img src="{% static 'assets/img/avatar.png' %}" alt="dp" style="height: 50px; width: auto;">
+{{ message.username }}:</strong> {{ message.text }}</p>
+                    <p class="message-meta">Posted on: {{ message.created_at }}</p>
+
+                 
+                    <form method="POST" action="{% url 'application:post_reply' message.id %}">
+                        {% csrf_token %}
+                        {{ reply_form.as_p }}
+                        <button type="submit"><i class="fa-solid fa-reply"></i> Reply</button>
+                    </form>
+
+                </div>
+                    <div class="col-md-6 replies">
+                        {% for reply in message.replies.all %}
+                            <div class="reply-box">
+                                <p><strong>Reply:</strong> {{ reply.text }}</p>
+                                <p class="message-meta">Replied on: {{ reply.created_at }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                
+            {% endfor %}
+        </div>
+
+
+  
+    </div>
+<script>
+        AOS.init();
+    </script>
+</body>
+{% endblock %}

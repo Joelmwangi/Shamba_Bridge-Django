@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import json
+import os
 from pathlib import Path
 
+from django.conf import settings
 from django.conf.global_settings import STATICFILES_DIRS
 from django.template import Engine
+from rest_framework.templatetags.rest_framework import data
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application',
     'panel',
+    'rest_framework',
+     'django_daraja',
 
 ]
 
@@ -140,7 +145,42 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+data = {
+    "MerchantRequestID": "b54f-471d-93d9-f7f3bf3f7c0e123258",
+    "CheckoutRequestID": "ws_CO_08122024151137542112054071",
+    "ResponseCode": "0",
+    "ResponseDescription": "Success. Request accepted for processing",
+    "CustomerMessage": "Success. Request accepted for processing"
+}
+
+# File path for saving the JSON file
+output_file = os.path.join(MEDIA_ROOT, "transactions", "transaction_status.json")
+
+# Ensure the directory exists
+os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
+# Write JSON data to the file
+with open(output_file, "w") as file:
+    json.dump(data, file, indent=4)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'joelmwangi515@gmail.com'
+EMAIL_HOST_PASSWORD = 'fwxt kkst ffjy ofzp'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MPESA_ENVIRONMENT = 'sandbox'
+MPESA_CONSUMER_KEY = 'dHVsA0tFoiFAJquwjZ6I4ae2nadSBk9zmbOMoCrhwNsEIPAO'
+MPESA_CONSUMER_SECRET = 'CWtweGLBJI6QOKf5VDB5DfAFKEWA0cGPCGusT2tEyQ105MJk2UhtPHbIPARONdxG'
+MPESA_SHORTCODE = '174379'
+MPESA_EXPRESS_SHORTCODE = '174379'
+MPESA_SHORTCODE_TYPE = 'paybill'
+MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_INITIATOR_USERNAME = 'testapi'
+MPESA_INITIATOR_SECURITY_CREDENTIALS = 'Safaricom999!*!'

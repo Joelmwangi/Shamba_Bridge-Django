@@ -32,6 +32,7 @@ urlpatterns = [
     path('sidebar/', views.sidebar, name='sidebar'),
     path('new_worker', views.new_worker, name='new_worker'),
     path('login/',views.login_view,name='login'),
+    path('pay/',views.pay,name='pay'),
     path('logout/',views.logout_view,name='logout'),
     path('dashboard/',views.dashboard_view,name='dashboard'),
     path('edit/<int:id>/', views.edit,name='edit'),

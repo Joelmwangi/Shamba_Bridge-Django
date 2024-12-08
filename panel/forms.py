@@ -57,6 +57,7 @@ class ProductForm(forms.ModelForm):
             'product_name': forms.TextInput(attrs={'class':'form-control','placeholder':'milk'}),
             'date_time' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'date and time'}),
             'quantity' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'10 Bags'}),
+            'description' : forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Sweet apples are goot for your health'}),
             'price_before' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Price ksh'}),
             'price_now': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Price ksh'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kisii'}),
@@ -87,6 +88,18 @@ class WorkerForm(forms.ModelForm):
             'role' : forms.Select(choices=ROLES_WOKERS, attrs={'class':'form-control', 'placeholder':'Feeding Animals'}),
             'mode_payment' : forms.Select(choices=MODE_OF_PAYMENT, attrs={'class':'form-control', 'placeholder':'Mpesa'}),
             'account' : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'012848494000/ +2543738399'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'johndoe@gmail.com'}),
+            'salary': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Salary',
+                'step': '0.01',  # To support decimal input
+            }),
+            'status': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Select Status'}, choices=[
+                ('Pending', 'Pending'),
+                ('Active', 'Active'),
+                ('Inactive', 'Inactive'),
+                ('Paid', 'Paid'),
+            ]),
 
 
         }

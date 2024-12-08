@@ -23,6 +23,7 @@
         <div class="col-md-2 p-3">
 
 <a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> LogOut</a>
+
         </div>
 </div>
 <div class="row">
@@ -43,28 +44,36 @@
     </tr>
 </table>
 
+<div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
 
-        <div class="col-md-12" style="background-color: #3f3535; padding-top: 10px; margin-top: 10px;">
-
-     <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i>Dashboard</a>
+     <a href="{% url 'dashboard' %}" style="color: white"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         </div>
 
           <div class="col-md-12" style=" padding-top: 10px;">
-<p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> Farm Produce</p>
-     <a href="{% url 'product' %}" style="color: white"><i class="fa-brands fa-product-hunt"></i> Add Product</a>
+              <p style="color: black; background-color: #372f2f; text-align: center;"><i class="fa-solid fa-cow"></i> <i> Farm Produce</i></p>
+     <a href="{% url 'product' %}" style="color: white"><i class="fa-solid fa-plus"></i>Add Product</a>
 <br>
-               <a href="#" style="color: white"><i class="fa-solid fa-plus"></i> Sell Product</a>
+
+        </div>
+                 <div class="col-md-12" style="padding-top: 20px;">
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-people-roof"></i><i> Manager</i> </p>
+                 <a href="{% url 'new_worker' %}" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
+                   <br>
+                   <a href="#" style="color: white"><i class="fa-solid fa-truck-field-un"></i>Suppliers</a>
+                     <br>
+
         </div>
 
             <div class="col-md-12" style="padding-top: 20px;">
-                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i> Finances</p>
-                 <a href="#" style="color: white"><i class="fa fa-user-plus"></i> Register Workers</a>
-                <br>
-           <a href="#" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-building-columns"></i><i> Finances</i> </p>
+
+           <a href="{% url 'pay' %}" style="color: white"><i class="fa-brands fa-paypal"></i> Pay Workers</a>
         </div>
 
+
+
             <div class="col-md-12" style="padding-top: 20px;">
-                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i> Profile</p>
+                <p style="color: black; background-color: #372f2f; text-align: center"><i class="fa-solid fa-person"></i><i> Profile</i></p>
 
      <a href="{% url 'about' %}" style="color: white"><i class="fa fa-user-plus"></i> Update Profile</a>
         </div>
