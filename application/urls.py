@@ -19,7 +19,7 @@ urlpatterns = [
     path('order/<int:id>/', views.order, name='order'),
     path('reply/<int:message_id>/', views.post_reply, name='post_reply'),
     path('test/', views.test, name='test'),
-    path('success/', views.success, name='success'),
-    path('failure/', views.failure, name='failure'),
+    path('success/', views.success, name='success_page'),
+    path('failure/', views.failure, name='failure_page'),
 
 ]

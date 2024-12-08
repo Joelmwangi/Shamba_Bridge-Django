@@ -1,23 +1,56 @@
-<!-- success.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment Successful</title>
-</head>
-<body>
-    <h1>Payment was successful! Thank you for your purchase.</h1>
-</body>
-</html>
-
-<!-- failure.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Failed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8d7da;
+            color: #721c24;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 30px;
+            border: 2px solid #f5c6cb;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin: 0 0 15px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        a:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
-    <h1>Payment failed. Please try again later.</h1>
+    <div class="container">
+        <h1>Payment Failed</h1>
+        <p>{{ message }}</p>
+        <p><strong>Phone Number:</strong> {{ phone_number }}</p>
+        <p><strong>Amount:</strong> {{ amount }}</p>
+        <p><strong>Payment ID:</strong> {{ payment_id }}</p>
+        <a href="https://lipia-online.vercel.app/link/shambabridge">Pay here</a>
+    </div>
 </body>
 </html>

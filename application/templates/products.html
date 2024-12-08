@@ -82,17 +82,74 @@ Market Place
                             <i class="fa-solid fa-phone"></i>   {{ products.phone_number }}
                         </a>
                     </p>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkoutModal">
+  Checkout
+</button>
+                    <button type="button" class="btn btn-warning m-7"><i class="fa-solid fa-cart-shopping"></i>
+  Add Cart
+</button>
+<!--
+     <div id="" data-price="{{ product.price_now }}">Price: {{ product.price_now }}</div>-->
+<div class="row modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- Login Button -->
 
-<!--            <div id="" data-price="{{ product.price_now }}">Price: {{ product.price_now }}</div>-->
+      </div>
+      <div class="modal-body">
+        <form id="payment-form" method="POST" action="{% url 'application:pay_now' %}">
+          {% csrf_token %}
 
-<form id="payment-form" method="POST" action="{% url 'application:pay_now' %}">
-    {% csrf_token %}
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="full_name">Full Name</label>
+              <input type="text" name="full_name" class="form-control" placeholder="Enter Full Name" required>
+            </div>
+            <div class="col-md-6">
+              <label for="phone_number">M-Pesa Phone Number</label>
+              <input type="text" name="phone_number" class="form-control" placeholder="Enter M-Pesa Phone Number" required>
+            </div>
+          </div>
 
-<!--       <div id="product-price" data-price="{{ products.price_now }}">Price: {{ product.price_now }}</div>-->
-    <input type="text" name="phone_number" class="form-control" placeholder="Enter Phone Number">
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter Quantity" min="1" required>
+            </div>
+            <div class="col-md-6">
+              <label for="price_now">Price per Item (in KES)</label>
+              <input type="text" id="price_now" name="price_now" class="form-control" value="{{ products.price_now }}" readonly>
+            </div>
+          </div>
 
-    <button type="submit" class="btn btn-success">Check out</button>
-</form>
+          <!-- New Email Field -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+          </div>
+
+          <div class="form-group">
+            <label for="total_price">Amount to Pay (KES)</label>
+            <input type="text" id="total_price" name="total_price" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Shipping Address (Optional)</label>
+            <textarea name="address" class="form-control" placeholder="Enter Shipping Address (if applicable)"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-success">Check out</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
                 </div>
@@ -101,7 +158,12 @@ Market Place
     </div>
 </div>
 
+
+
+
+
 <style>
+
 .image-container {
     display: inline-block;
     overflow: hidden;
@@ -124,4 +186,17 @@ Market Place
 }
 </style>
 
+<script>
+  // Get the price per item from the input field
+  var pricePerItem = parseFloat(document.getElementById('price_now').value) || 0;
+
+  // Listen for changes in quantity field
+  document.getElementById('quantity').addEventListener('input', function() {
+    var quantity = parseInt(this.value) || 0;
+    var totalPrice = quantity * pricePerItem;
+
+    // Update the total price field with the calculated total
+    document.getElementById('total_price').value = totalPrice.toFixed(2);
+  });
+</script>
 {% endblock %}

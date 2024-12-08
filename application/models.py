@@ -24,8 +24,12 @@ class Reply(models.Model):
     def __str__(self):
         return f"Reply {self.id} to Message {self.message_id}"
 
+
+
 class Payment(models.Model):
     phone_number = models.CharField(max_length=15)
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(
         max_length=10,
@@ -35,4 +39,5 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.phone_number} - {self.status}"
+
 

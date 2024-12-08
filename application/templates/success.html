@@ -1,23 +1,14 @@
-<!-- success.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment Successful</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
 </head>
 <body>
-    <h1>Payment was successful! Thank you for your purchase.</h1>
-</body>
-</html>
-
-<!-- failure.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Payment Failed</title>
-</head>
-<body>
-    <h1>Payment failed. Please try again later.</h1>
+    <h1>{{ status }}</h1>
+    <p>{{ message }}</p>
+    <p>Your reference number is:</p>
+    <h2>{{ reference_number }}</h2>
 </body>
 </html>

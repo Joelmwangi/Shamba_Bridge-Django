@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import json
+import os
 from pathlib import Path
 
+from django.conf import settings
 from django.conf.global_settings import STATICFILES_DIRS
 from django.template import Engine
+from rest_framework.templatetags.rest_framework import data
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,6 +144,24 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+data = {
+    "MerchantRequestID": "b54f-471d-93d9-f7f3bf3f7c0e123258",
+    "CheckoutRequestID": "ws_CO_08122024151137542112054071",
+    "ResponseCode": "0",
+    "ResponseDescription": "Success. Request accepted for processing",
+    "CustomerMessage": "Success. Request accepted for processing"
+}
+
+# File path for saving the JSON file
+output_file = os.path.join(MEDIA_ROOT, "transactions", "transaction_status.json")
+
+# Ensure the directory exists
+os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
+# Write JSON data to the file
+with open(output_file, "w") as file:
+    json.dump(data, file, indent=4)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
