@@ -41,6 +41,7 @@ class Worker(models.Model):
     role = models.CharField(max_length=50)
     mode_payment = models.CharField(max_length=20)
     account = models.CharField(max_length=20)
+    email = models.CharField(max_length=50)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Choices for status and is_active fields

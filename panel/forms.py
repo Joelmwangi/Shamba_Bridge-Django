@@ -87,6 +87,7 @@ class WorkerForm(forms.ModelForm):
             'role' : forms.Select(choices=ROLES_WOKERS, attrs={'class':'form-control', 'placeholder':'Feeding Animals'}),
             'mode_payment' : forms.Select(choices=MODE_OF_PAYMENT, attrs={'class':'form-control', 'placeholder':'Mpesa'}),
             'account' : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'012848494000/ +2543738399'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'johndoe@gmail.com'}),
             'salary': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter Salary',
