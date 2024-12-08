@@ -158,7 +158,8 @@ def fire(request, id):
         messages.error(request, f'Error firing worker: {str(e)}')
 
     return redirect('new_worker')
-@auth
+
+
 def edit(request, id):
     print(f"Request Method: {request.method}")
     profile = get_object_or_404(Profile, id=id)
@@ -177,6 +178,7 @@ def edit(request, id):
     return render(request, 'edit.html', {'form': form, 'profile': profile})
 
 @auth
+
 def editproduct(request, id):
     print(f"Request Method: {request.method}")
     profile = get_object_or_404(Profile, id=id)
