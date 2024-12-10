@@ -141,7 +141,8 @@ def pay_now(request):
     amount = 100
     account_reference = 'Shamba Bridge Kenya'
     transaction_desc = 'Payment for web dev'
-    callback_url = 'https://darajambill.herokuapp.com/express-payment'
+    # callback_url = 'https://darajambill.herokuapp.com/express-payment'
+    callback_url = 'https://lipia-api.kreativelabske.com/api'
 
     # Generate a reference number (e.g., ShBr0111)
     reference_number = "ShBr" + get_random_string(length=4, allowed_chars="0123456789")

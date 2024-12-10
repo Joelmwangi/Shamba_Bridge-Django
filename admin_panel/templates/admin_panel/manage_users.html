@@ -1,0 +1,41 @@
+{% extends 'admin_panel/bases.html' %}
+
+<html>
+<head>
+    <title>Manage Users Farmers</title>
+
+</head>
+<body>
+{% block content %}
+    <h1>Manage Users Farmers</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.is_active }}</td>
+                <td>
+                    {% if user.is_active %}
+                    <a href="{% url 'deactivate_user' user.id %}">Deactivate</a>
+                    {% else %}
+                    <a href="{% url 'deactivate_user' user.id %}">Activate</a>
+                    {% endif %}
+                    <a href="{% url 'change_password' user.id %}">Change Password</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+</body>
+</html>

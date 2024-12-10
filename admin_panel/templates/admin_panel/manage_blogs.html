@@ -1,0 +1,32 @@
+{% extends 'admin_panel/bases.html' %}
+{% block title %}
+Blogs
+
+{% endblock %}
+<html>
+<head>
+    <title>Manage Blogs</title>
+</head>
+<body>
+
+{% block content %}
+    <div class="navbar">
+        <h1>Manage Blogs / Events</h1>
+    </div>
+    <div class="container1">
+        <a href="{% url 'post_blog' %}">Post a New Blog</a>
+        <ul>
+            {% for blog in blogs %}
+            <li>
+                <h3>{{ blog.title }}</h3>
+                <h5  style="color: blue;"> {{ blog.link }}</h5>
+                <p>{{ blog.content|truncatewords:20 }}</p>
+                <small>Posted by: {{ blog.author.username }} on {{ blog.created_at }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+</body>
+</html>

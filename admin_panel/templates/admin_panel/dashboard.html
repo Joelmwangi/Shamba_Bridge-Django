@@ -1,0 +1,24 @@
+{% extends 'admin_panel/bases.html' %}
+<html>
+<head>
+    {% block title %} Admin Dashboard
+    {% endblock %}
+
+</head>
+<body>
+{% block content %}
+    <div class="sidebar">
+
+        <a href="{% url 'manage_workers' %}">Manage Workers</a>
+        <a href="{% url 'manage_products' %}">Manage Products</a>
+        <a href="{% url 'manage_users' %}">Manage Users</a>
+        <a href="{% url 'logout' %}" class="logout">Logout</a>
+    </div>
+    <div class="container">
+        <h2>Welcome to the Admin Dashboard</h2>
+        <p>Use the links on the sidebar to manage the system.</p>
+    </div>
+
+{% endblock %}
+</body>
+</html>

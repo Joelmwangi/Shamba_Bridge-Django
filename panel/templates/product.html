@@ -118,7 +118,7 @@
                 <td>{{ product.location }}</td>
                <td>{{ product.phone_number }}</td>
                 <td>
-                    <a href="#"><i class="fa-regular fa-pen-to-square"></i> EDIT</a>
+                    <a href="{% url 'edit' id=product.id %}"><i class="fa-regular fa-pen-to-square"></i> EDIT</a>
                 </td>
                 <td>
                     <a href="{% url 'delete' product.id %}" class="btn btn-danger" type="button"

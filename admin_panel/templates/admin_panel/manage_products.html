@@ -1,0 +1,50 @@
+{% extends 'admin_panel/bases.html' %}
+<html>
+<head>
+    <title>Manage Products</title>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #335959;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Container Styles */
+
+    </style>
+</head>
+<body>
+    {% block content %}
+    <div class="container2">
+        <form method="GET" action="{% url 'manage_products' %}">
+            <input type="text" name="username" placeholder="Filter by username" value="{{ request.GET.username }}">
+            <button type="submit">Filter</button>
+        </form>
+        <ul>
+            {% for product in products %}
+            <li>
+                <span>{{ product.product_name }}</span> - ksh{{ product.price_now }} - Location:
+                {{ product.location }} - Quantity: {{ product.quantity }}
+                <small>(Posted by: {{ product.user.username }})</small>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+</body>
+</html>

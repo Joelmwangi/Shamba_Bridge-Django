@@ -1,0 +1,54 @@
+{% extends 'admin_panel/bases.html' %}
+
+<html>
+<head>
+    <title>Manage Workers</title>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #064806;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    {% block content %}
+    <div class="container1">
+        <!-- Filters -->
+        <form method="GET" action="{% url 'manage_workers' %}">
+            <input type="text" name="worker_name" placeholder="Filter by worker name" value="{{ request.GET.worker_name }}">
+            <input type="text" name="user_posted" placeholder="Filter by Employer" value="{{ request.GET.user_posted }}">
+            <button type="submit">Filter</button>
+        </form>
+
+        <!-- Worker List -->
+        <ul>
+            {% for worker in workers %}
+            <li>
+                <span>{{ worker.name }}</span> - Mode of Payment: {{ worker.mode_payment }} - Role:
+                {{ worker.role }} - Salary: Ksh{{ worker.salary }} - Status: {{ worker.status }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+</body>
+</html>

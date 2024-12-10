@@ -6,7 +6,6 @@ from django.shortcuts import  redirect, get_object_or_404
 
 from panel.forms import guest, auth, ProfileForm, ProductForm, WorkerForm
 from django.shortcuts import render
-
 from project import settings
 from .models import Profile, Product, Worker
 from django.contrib import messages

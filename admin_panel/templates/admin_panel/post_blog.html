@@ -1,0 +1,25 @@
+{% extends 'admin_panel/bases.html' %}
+{% block title %}
+Post blogs
+{% endblock %}
+
+<html>
+<head>
+    <title>Post Blog</title>
+</head>
+<body>
+{% block content %}
+    <div class="navbar">
+        <h1>Post a Blog/ Event </h1>
+    </div>
+    <div class="container3" style="margin-top: 10px;">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" >Post Blog</button>
+        </form>
+    </div>
+
+{% endblock %}
+</body>
+</html>

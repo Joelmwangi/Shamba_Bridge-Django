@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'application',
     'panel',
     'rest_framework',
-     'django_daraja',
+    'django_daraja',
+    'admin_panel',
 
 ]
 
