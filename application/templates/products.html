@@ -46,7 +46,7 @@ Market Place
                     <div class="image-container">
                         <div class="zoom-out">
                             {% if products.image %}
-                                <img src="{{ products.image.url }}" alt="{{ product.name }}">
+                                <img src="{{ products.image.url }}" alt="{{ product.name }}" height="350" width="300">
                             {% else %}
                                 <img src="{% static 'assets/img/green.png' %}" class="img-fluid">
                             {% endif %}

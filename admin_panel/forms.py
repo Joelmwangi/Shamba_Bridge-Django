@@ -20,10 +20,14 @@ class BlogForm(forms.ModelForm):
 
         widgets = {
 
-        'title' : forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Benefits of modern farming'}),
+        'title *' : forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Benefits of modern farming'}),
         'content' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'In modern farming has been made easy bt the available technologies...'}),
         'link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'www.shujaasolutions.com'}),
         'venue' : forms.TextInput(attrs={'class':'forms-control', 'placeholder':'Nakuru Show, grounds'}),
 
 
         }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['title'].label = 'Title *'

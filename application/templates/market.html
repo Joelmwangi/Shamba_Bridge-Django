@@ -14,7 +14,7 @@ Market Place
     <div class="breadcrumbs">
         <ol>
             <li>
-                <a href="#">Home</a>
+                <a href="{% url 'application:index' %}">Home</a>
             </li>
             <li class="current">
                 /
@@ -81,7 +81,7 @@ Market Place
       <div class="col-md-4 mb-2"> 
         <div class="product border p-1">
           {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid w-100 h-50">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid w-100 ">
           {% else %}
             <img src="{% static 'assets/img/green.png' %}" class="img-fluid">
           {% endif %}

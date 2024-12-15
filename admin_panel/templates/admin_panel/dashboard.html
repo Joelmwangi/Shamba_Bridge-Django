@@ -1,23 +1,70 @@
 {% extends 'admin_panel/bases.html' %}
+
 <html>
 <head>
-    {% block title %} Admin Dashboard
-    {% endblock %}
+    {% block title %} Admin Dashboard {% endblock %}
+
 
 </head>
 <body>
 {% block content %}
     <div class="sidebar">
+        <a href="{% url 'admin_dashboard' %}"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+        <a href="{% url 'manage_products' %}"><i class="fa-brands fa-product-hunt"></i> Manage Products</a>
+        <a href="{% url 'manage_users' %}"><i class="fa-solid fa-users"></i> Manage Farmers</a>
+        <a href="{% url 'manage_blogs' %}"><i class="fa-solid fa-signs-post"></i> Manage/add blogs</a>
+          <a href="{% url 'manage_workers' %}"><i class="fa-solid fa-person-digging"></i> Manage Workers</a>
+        <a href="{% url 'admin_login' %}" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
 
-        <a href="{% url 'manage_workers' %}">Manage Workers</a>
-        <a href="{% url 'manage_products' %}">Manage Products</a>
-        <a href="{% url 'manage_users' %}">Manage Users</a>
-        <a href="{% url 'logout' %}" class="logout">Logout</a>
-    </div>
     <div class="container">
-        <h2>Welcome to the Admin Dashboard</h2>
-        <p>Use the links on the sidebar to manage the system.</p>
+        <h2>Workers' Products</h2>
+        <canvas id="productPieChart"></canvas>
+
+        <h2>Users vs Blogs</h2>
+        <canvas id="usersBlogsPieChart"></canvas>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script>
+    const chartData = {{ chart_data|safe }};
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                data: chartData.data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#b99e26'],
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Workers and Products Added'
+                },
+                datalabels: {
+                    formatter: (value, context) => {
+                        const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
+                        const percentage = (value / total * 100).toFixed(1); // Format to 1 decimal place
+                        return `${percentage}%`;
+                    },
+                    color: '#fff', // Adjust label color
+                    font: {
+                        weight: 'bold'
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // Register the DataLabels plugin
+    });
+</script>
 
 {% endblock %}
 </body>

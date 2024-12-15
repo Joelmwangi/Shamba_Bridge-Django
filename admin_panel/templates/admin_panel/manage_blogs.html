@@ -1,9 +1,8 @@
 {% extends 'admin_panel/bases.html' %}
 {% block title %}
-Blogs
-
+    Blogs
 {% endblock %}
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Manage Blogs</title>
 </head>
@@ -13,20 +12,31 @@ Blogs
     <div class="navbar">
         <h1>Manage Blogs / Events</h1>
     </div>
-    <div class="container1">
+    <div class="container1" style="padding: 10px; font-size: 15px;">
         <a href="{% url 'post_blog' %}">Post a New Blog</a>
+        <table class="table">
+            <th>
+                
+            </th>
         <ul>
             {% for blog in blogs %}
+
             <li>
-                <h3>{{ blog.title }}</h3>
-                <h5  style="color: blue;"> {{ blog.link }}</h5>
+                <small>{{ blog.title }}</small>
+                <small style="color: blue;">{{ blog.link }}</small>
                 <p>{{ blog.content|truncatewords:20 }}</p>
                 <small>Posted by: {{ blog.author.username }} on {{ blog.created_at }}</small>
+                <!-- Edit Button -->
+                <a href="{% url 'edit_blog' blog.id %}" class="btn btn-success" style="font-size: 10px; padding: 5px;"><i class="fa-solid fa-pen-to-square" style="font-size: 10px;"></i> Edit</a>
+                               <form action="{% url 'delete_blog' blog.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" style="font-size: 10px;" onclick="return confirm('Are you sure you want to delete this blog?')"><i class="fa-solid fa-delete-left"></i> Delete</button>
+                </form>
             </li>
             {% endfor %}
         </ul>
-    </div>
-
+</table>
+            </div>
 {% endblock %}
 </body>
 </html>

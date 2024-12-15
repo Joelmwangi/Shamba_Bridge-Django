@@ -31,7 +31,7 @@
     {% block content %}
     <div class="container2">
         <form method="GET" action="{% url 'manage_products' %}">
-            <input type="text" name="username" placeholder="Filter by username" value="{{ request.GET.username }}">
+            <input type="text" name="username" placeholder="Filter by Farmer username" value="{{ request.GET.username }}">
             <button type="submit">Filter</button>
         </form>
         <ul>

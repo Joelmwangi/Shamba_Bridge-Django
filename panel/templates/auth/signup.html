@@ -8,7 +8,7 @@
   <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
 
          <img src="{% static 'assets/img/logo2.png' %}" alt="" height="30px">
-        <h5 class="sitename" style="color: green; padding: 8px; text-decoration: none;"><span style="font-size: 30px;">S</span>hamba|-|bridge</h5>
+        <h5 class="sitename" style="color: green; padding: 8px; text-decoration: none;"><span style="font-size: 30px;">S</span>hamba|-|Bridge</h5>
       </a>
 <h2 class="text-muted" style="text-align: center; font-weight: bold;">Register as Farmer</h2>
     <div class="container" style="margin-top: 5%;" >
@@ -44,7 +44,7 @@
             <input type="text" name="{{ form.password2.name }}" class="form-control" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 10px 15px; color: #fff; font-size: 16px; outline: none; width: 100%; max-width: 100%; margin: 10px 0;" value="{{ form.password1.value }}" />
             <span class="text-danger">{{ form.password2.errors }}</span>
         </div>
-        <button type="submit" class="" style="background-color: beige; border-radius: 10px; padding: 5px;">Register Me</button>
+        <button type="submit" class="btn btn-success" >Register Me</button>
             <a href="{% url 'login' %}" class="btn" style="color: cadetblue; font-weight: bold;">Already have an account? Login</a>
         </form>
     </div>
